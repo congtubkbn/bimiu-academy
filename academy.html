@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Viện Toán - Bi & Miu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style id="dynamic-css"></style>
+    <style>
+        /* Bootloader styles */
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #fdfaf0; margin: 0; padding: 20px; text-align: center; }
+        .boot-loader-container { max-width: 500px; margin: 100px auto; background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border: 4px solid #1a2a6c; }
+        .boot-title { font-size: 24px; font-weight: bold; color: #1a2a6c; margin-bottom: 20px; }
+        .loader-spinner { border: 6px solid #f3f3f3; border-top: 6px solid #f1c40f; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .offline-box { background: #fee; color: #e74c3c; padding: 20px; border-radius: 12px; margin-top: 20px; border: 2px solid #e74c3c; display: none; }
+        .status-text { color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div id="boot-ui" class="boot-loader-container">
+        <div class="loader-spinner" id="spinner"></div>
+        <div class="boot-title">Học Viện Toán - Bi & Miu</div>
+        <div class="status-text" id="status-msg">Đang khởi động dữ liệu...</div>
+        
+        <div class="offline-box" id="offline-msg">
+            <b>🚫 Lỗi kết nối mạng</b><br>
+            Ứng dụng yêu cầu kết nối Internet để kiểm tra dữ liệu.<br>Vui lòng kết nối mạng và thử lại!
+            <br><button onclick="location.reload()" style="margin-top: 15px; padding: 8px 20px; border-radius: 20px; border: none; background: #e74c3c; color: white; font-weight: bold; cursor: pointer;">Thử lại</button>
+        </div>
+    </div>
+
+    <!-- Nơi chứa giao diện lấy từ GitHub -->
+    <div id="app-root" style="display: none;"></div>
+
+    <script>
+        // Cấu hình kho mã nguồn trên GitHub
+        const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/congtubkbn/bimiu-academy/main/core/";
+        
+        // Cấu hình Cache
+        const CACHE_KEY_VERSION = "hvt_core_version";
+        const CACHE_KEY_HTML = "hvt_core_html";
+        const CACHE_KEY_CSS = "hvt_core_css";
+        const CACHE_KEY_JS = "hvt_core_js";
+
+        const bootUi = document.getElementById('boot-ui');
+        const spinner = document.getElementById('spinner');
+        const statusMsg = document.getElementById('status-msg');
+        const offlineMsg = document.getElementById('offline-msg');
+        const appRoot = document.getElementById('app-root');
+        const dynamicCss = document.getElementById('dynamic-css');
+
+        function setStatus(msg) {
+            statusMsg.textContent = msg;
+        }
+
+        function showOffline() {
+            spinner.style.display = 'none';
+            statusMsg.style.display = 'none';
+            offlineMsg.style.display = 'block';
+        }
+
+        function triggerApp(html, css, js) {
+            // 1. Tiêm CSS
+            dynamicCss.innerHTML = css;
+            
+            // 2. Tiêm HTML vào div rễ
+            appRoot.innerHTML = html;
+            
+            // 3. Ẩn Bootloader, hiện Giao diện
+            bootUi.style.display = 'none';
+            appRoot.style.display = 'block';
+
+            // 4. Tiêm JS và thực thi
+            const scriptEl = document.createElement('script');
+            scriptEl.textContent = js;
+            document.body.appendChild(scriptEl);
+
+            // 5. Gọi hàm khởi động (Vốn là window.onload từ code cũ được đổi thành window.initApp)
+            if (typeof window.initApp === 'function') {
+                window.initApp();
+            } else {
+                console.error("Lỗi: Không tìm thấy hàm window.initApp() trong mã nguồn tải về.");
+            }
+        }
+
+        async function fetchWithTimeout(url, timeoutMs) {
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), timeoutMs);
+            try {
+                const response = await fetch(url, { signal: controller.signal });
+                clearTimeout(id);
+                return response;
+            } catch (error) {
+                clearTimeout(id);
+                throw error;
+            }
+        }
+
+        async function bootstrap() {
+            // Yêu cầu bắt buộc 1: Phải có mạng
+            if (!navigator.onLine) {
+                showOffline();
+                return;
+            }
+
+            try {
+                setStatus("Đang kiểm tra phiên bản mới...");
+                
+                // Fetch version có mã chống cache (query 't' nối thời gian)
+                const vRes = await fetchWithTimeout(GITHUB_RAW_BASE + "version.json?t=" + Date.now(), 5000);
+                if (!vRes.ok) throw new Error("Tải tệp version.json thất bại.");
+                
+                const vData = await vRes.json();
+                const cloudVersion = vData.version;
+                
+                const localVersion = localStorage.getItem(CACHE_KEY_VERSION);
+                const localHtml = localStorage.getItem(CACHE_KEY_HTML);
+                const localCss = localStorage.getItem(CACHE_KEY_CSS);
+                const localJs = localStorage.getItem(CACHE_KEY_JS);
+
+                // Yêu cầu 2: Tối ưu Load nhanh. Nếu phiên bản bằng nhau, Render từ Cache.
+                if (cloudVersion === localVersion && localHtml && localCss && localJs) {
+                    setStatus("Phiên bản đang dùng là mới nhất. Đang mở...");
+                    // Chạy ngay từ LocalStorage để truy cập tốc độ gần như tức thì.
+                    triggerApp(localHtml, localCss, localJs);
+                } else {
+                    // Yêu cầu 3: Nếu thấp hơn hoặc chưa có thì cập nhật nhanh chóng.
+                    setStatus("Đang tải dữ liệu phiên bản " + cloudVersion + "...");
+                    
+                    // Promise.all tải song song giúp tốc độ kéo dữ liệu cực nhanh
+                    const [htmlRes, cssRes, jsRes] = await Promise.all([
+                        fetchWithTimeout(GITHUB_RAW_BASE + "app.html?v=" + cloudVersion, 10000),
+                        fetchWithTimeout(GITHUB_RAW_BASE + "app.css?v=" + cloudVersion, 10000),
+                        fetchWithTimeout(GITHUB_RAW_BASE + "app.js?v=" + cloudVersion, 10000)
+                    ]);
+
+                    if (!htmlRes.ok || !cssRes.ok || !jsRes.ok) throw new Error("Chịu, không thể tải một số thành phần");
+
+                    const [cloudHtml, cloudCss, cloudJs] = await Promise.all([
+                        htmlRes.text(),
+                        cssRes.text(),
+                        jsRes.text()
+                    ]);
+
+                    // Lưu vào cache
+                    localStorage.setItem(CACHE_KEY_HTML, cloudHtml);
+                    localStorage.setItem(CACHE_KEY_CSS, cloudCss);
+                    localStorage.setItem(CACHE_KEY_JS, cloudJs);
+                    localStorage.setItem(CACHE_KEY_VERSION, cloudVersion);
+
+                    setStatus("Hoàn tất tải về. Đang mở...");
+                    triggerApp(cloudHtml, cloudCss, cloudJs);
+                }
+            } catch (e) {
+                console.error("Bootloader Error:", e);
+                
+                // Xử lý Ngoại lệ: Lỗi Fetch (do Github lỗi hoặc firewall chặn) -> Ưu tiên dùng Cache làm cứu cánh dự phòng.
+                const localHtml = localStorage.getItem(CACHE_KEY_HTML);
+                const localCss = localStorage.getItem(CACHE_KEY_CSS);
+                const localJs = localStorage.getItem(CACHE_KEY_JS);
+                
+                if (localHtml && localCss && localJs) {
+                    setStatus("Mạng có sự cố, khởi động bằng bộ đệm dự phòng...");
+                    setTimeout(() => triggerApp(localHtml, localCss, localJs), 1000);
+                } else {
+                    // Lần đầu tải mà rớt mạng thì đành mở bảng lỗi
+                    showOffline();
+                }
+            }
+        }
+
+        // Bắt đầu khởi chạy bộ nạp
+        bootstrap();
+    </script>
+</body>
+</html>
