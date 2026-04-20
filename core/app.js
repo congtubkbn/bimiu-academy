@@ -706,41 +706,55 @@ class Game {
         const numCount = numbers.length;
         if (numCount === 2) {
             const stories = [
-                `Lớp học có ${numbers[0]} bạn nam và ${numbers[1]} bạn nữ. Hỏi lớp học có tất cả bao nhiêu bạn?`,
-                `Sáng nay siêu thị bán được ${numbers[0]} kg gạo, chiều bán thêm được ${numbers[1]} kg. Tổng cộng siêu thị đã bán bao nhiêu kg?`,
-                `Bé có ${numbers[0]} quyển truyện, mẹ mua tặng thêm ${numbers[1]} quyển nữa. Hỏi bé đang có bao nhiêu quyển truyện?`,
-                `Trong vườn có ${numbers[0]} cây cam và ${numbers[1]} cây bưởi. Vườn nhà có tất cả bao nhiêu cây ăn quả?`
+                `Heo Peppa làm được ${numbers[0]} cái bánh xèo, George làm thêm được ${numbers[1]} cái nữa. Hai chị em có tất cả bao nhiêu cái bánh xèo?`,
+                `Elsa bằng phép thuật tạo ra ${numbers[0]} bông tuyết bay lơ lửng, Anna gom thêm được ${numbers[1]} bông nữa. Cả hai chị em có tất cả bao nhiêu bông tuyết?`,
+                `Khủng long T-Rex ăn hết ${numbers[0]} cái đùi gà, rồi lại gọi thêm ${numbers[1]} cái burger khổng lồ. T-Rex đã ăn tổng cộng bao nhiêu món?`,
+                `Người Nhện giải cứu được ${numbers[0]} chú mèo con và ${numbers[1]} chú cún con bị kẹt trên mái nhà. Người Nhện đã cứu được bao nhiêu bạn nhỏ?`,
+                `Trong rương kho báu, hải tặc tìm thấy ${numbers[0]} đồng tiền vàng lấp lánh và ${numbers[1]} viên kim cương. Có tất cả bao nhiêu báu vật?`,
+                `Bé có ${numbers[0]} quyển truyện tranh siêu anh hùng, mẹ mua tặng thêm ${numbers[1]} quyển nữa. Hỏi bé đang có bao nhiêu quyển truyện?`,
+                `Doraemon lấy từ túi thần kỳ ra ${numbers[0]} cái bánh rán, Nobita mua thêm ${numbers[1]} cái nữa. Cả hai bạn có tất cả bao nhiêu cái bánh rán?`
             ];
             return stories[Math.floor(Math.random() * stories.length)];
         }
         else if (numCount === 3) {
             const stories = [
-                `Bi nhặt được ${numbers[0]} vỏ sò, Miu nhặt được ${numbers[1]} vỏ sò, Cún nhặt được ${numbers[2]} vỏ sò. Cả ba bạn có bao nhiêu vỏ sò?`,
-                `Tủ sách có 3 ngăn. Ngăn trên: ${numbers[0]} quyển, ngăn giữa: ${numbers[1]} quyển, ngăn dưới: ${numbers[2]} quyển. Tủ có tất cả bao nhiêu quyển?`,
-                `Đoàn tàu gồm ${numbers[0]} toa gà, ${numbers[1]} toa vịt và ${numbers[2]} toa bò. Hỏi đoàn tàu có tất cả bao nhiêu toa?`
+                `Đội chó cứu hộ Paw Patrol tìm được ${numbers[0]} khúc xương, Chase nhặt thêm ${numbers[1]} quả bóng rổ, và Rubble mang về ${numbers[2]} khối Lego. Biệt đội có tất cả bao nhiêu món đồ?`,
+                `Trong khu rừng ma thuật, có ${numbers[0]} chú lùn hái nấm, ${numbers[1]} bà tiên đang bay và ${numbers[2]} con kỳ lân ăn cỏ. Có tất cả bao nhiêu nhân vật trong rừng?`,
+                `Đoàn tàu hoạt hình gồm ${numbers[0]} toa chở kem, ${numbers[1]} toa chở dưa hấu và ${numbers[2]} toa chở kẹo mút. Hỏi đoàn tàu chở tất cả bao nhiêu toa đồ ăn vặt?`,
+                `Gia đình nhà Gấu đi cắm trại mang theo: ${numbers[0]} hộp xúc xích, ${numbers[1]} gói kẹo dẻo và ${numbers[2]} hộp vỉ sữa dâu. Họ đã mang tổng cộng bao nhiêu món ăn?`,
+                `Thám tử Pikachu tìm ra ${numbers[0]} dấu chân bí ẩn, ${numbers[1]} chiếc lá kẹp trong rương và ${numbers[2]} sợi lông vũ. Có tất cả bao nhiêu manh mối?`
             ];
             return stories[Math.floor(Math.random() * stories.length)];
         }
         else {
-            let items = ["quả táo", "quả cam", "quả chuối", "quả lê", "quả dưa hấu"];
-            let story = "Mẹ đi siêu thị mua ";
+            let itemLists = [
+                ["chiếc xe hơi đồ chơi", "khối Lego", "Robot biến hình", "lõi pin", "siêu xe đua"],
+                ["cái kẹo mút", "bánh donut sô-cô-la", "cây kem ốc quế", "thanh kẹo dẻo", "cái bánh quy bơ"],
+                ["quả dâu tây", "quả mâm xôi", "quả đào thơm", "quả việt quất", "quả kiwi"],
+                ["chiếc kẹp tóc", "vòng cổ ngọc trai", "băng đô nơ", "chiếc nhẫn đồ chơi", "vòng tay xinh"]
+            ];
+            let items = itemLists[Math.floor(Math.random() * itemLists.length)];
+            let story = "Chiếc túi ma thuật vừa rớt ra: ";
             for (let i = 0; i < numbers.length; i++) {
-                story += `${numbers[i]} ${items[i]}`;
+                let itemName = items[i % items.length];
+                story += `${numbers[i]} ${itemName}`;
                 if (i === numbers.length - 2) story += " và ";
                 else if (i < numbers.length - 2) story += ", ";
             }
-            story += ". Hỏi mẹ đã mua tổng cộng bao nhiêu quả?";
+            story += ". Hỏi túi ma thuật đã rớt ra tổng cộng bao nhiêu đồ vật?";
             return story;
         }
     }
 
     static getMultiplicationStoryQuestion(num1, num2) {
         const stories = [
-            `Mỗi hộp bút có ${num1} chiếc. Bi có ${num2} hộp bút như vậy. Hỏi Bi có tất cả bao nhiêu chiếc bút?`,
-            `Mỗi ngày Miu ngoan được mẹ thưởng ${num1} ngôi sao. Sau ${num2} ngày, Miu có tổng cộng bao nhiêu ngôi sao?`,
-            `Trong vườn có ${num1} cây táo, mỗi cây hái được ${num2} quả táo. Hỏi hái được tất cả bao nhiêu quả?`,
-            `Một chiếc xe ô tô đồ chơi có ${num1} bánh xe. Nếu có ${num2} chiếc xe thì có tổng cộng bao nhiêu bánh xe?`,
-            `Mỗi khay có ${num1} chiếc bánh su kem. Mẹ nướng xong ${num2} khay. Hỏi mẹ đã nướng bao nhiêu chiếc bánh?`
+            `Bi xếp được ${num1} ngôi nhà bằng Lego, mỗi ngôi nhà Bi cắm thêm ${num2} lá cờ siêu nhân. Hỏi Bi đã dùng tất cả bao nhiêu lá cờ?`,
+            `Mỗi ngày bé ngoan được cô giáo tặng ${num1} ngôi sao lấp lánh. Trải qua ${num2} ngày chăm ngoan, bé có tổng cộng bao nhiêu ngôi sao?`,
+            `Công chúa Elsa đắp ${num1} người tuyết khổng lồ, mỗi người tuyết đội đúng ${num2} chiếc mũ len ấm áp. Hỏi Elsa đã dùng tất cả bao nhiêu chiếc mũ?`,
+            `Một siêu xe địa hình hầm hố có ${num1} bánh xe. Nếu đội đua có ${num2} siêu xe giống vậy thì họ có tổng cộng bao nhiêu bánh xe chạy trên đường?`,
+            `Mẹ làm món kẹo hồ lô nướng, mỗi xiên kẹo có đúng ${num1} quả dâu tây đỏ mọng. Mẹ làm tổng cộng ${num2} xiên. Hỏi mẹ đã dùng bao nhiêu quả dâu tây?`,
+            `Người Nhện vừa giăng ra ${num1} cái mạng nhện siêu bự, trên mỗi mạng có ${num2} chú nhện con đang xích đu. Có tổng cộng bao nhiêu chú nhện con?`,
+            `Ba mua cho nhà ${num1} hộp bánh pizza béo ngậy, mỗi hộp được chia đúng thành ${num2} miếng. Có tất cả bao nhiêu miếng pizza thơm ngon chờ bé ăn đây?`
         ];
         return stories[Math.floor(Math.random() * stories.length)];
     }
