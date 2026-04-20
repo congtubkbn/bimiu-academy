@@ -1,0 +1,139 @@
+﻿    <div class="main-container">
+        <div id="sync-loader">🔄 Đang đồng bộ...</div>
+        <div class="academy-header">
+            <div class="main-title-wrapper">
+                <div class="owl-mascot" id="main-owl">🦉</div>
+                <h1 class="super-title-text">Biệt Đội Cú Mèo Thông Thái</h1>
+                <div class="subtitle-badge">
+                    <span>📚</span> DÀNH RIÊNG CHO BI & MIU <span>🎓</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-step active" id="step-1">
+                <div class="progress-circle">👥</div><span>Học Viên</span>
+            </div>
+            <div class="progress-step" id="step-2">
+                <div class="progress-circle">📚</div><span>Môn Học</span>
+            </div>
+            <div class="progress-step" id="step-3">
+                <div class="progress-circle">⚙️</div><span>Cấu Hình</span>
+            </div>
+            <div class="progress-step" id="step-4">
+                <div class="progress-circle">🎮</div><span>Chơi</span>
+            </div>
+        </div>
+
+
+        <div class="tab-nav">
+            <button class="tab-btn" onclick="App.switchTab('achievements')">🏆 Thành Tích</button>
+            <button class="tab-btn active" onclick="App.switchTab('players')">👥 Học Viên</button>
+            <button class="tab-btn" onclick="App.switchTab('subjects')">📚 Môn Học</button>
+            <button class="tab-btn" onclick="App.switchTab('settings')">⚙️ Cấu Hình</button>
+            <button class="tab-btn" onclick="App.switchTab('game')">🎮 Chơi Game</button>
+        </div>
+
+        <div id="view-players" class="tab-content active">
+            <div class="player-mgr">
+                <div style="margin-bottom: 20px;">
+                    <input type="text" id="in-name" placeholder="Tên bé..."
+                        style="padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    <input type="text" id="in-icon" placeholder="Icon (👦)"
+                        style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; width: 60px;">
+                    <button class="btn-ui btn-save" onclick="Player.addNew()">Thêm Học Viên</button>
+                </div>
+                <div id="list-players"></div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn-next" onclick="App.switchTab('subjects')">Tiếp tục chọn môn học ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-achievements" class="tab-content">
+            <div class="player-mgr">
+                <div
+                    style="margin-bottom: 20px; text-align: left; background: #e8f4f8; padding: 15px; border-radius: 12px;">
+                    <label for="ach-player-select" style="font-weight: bold; margin-right: 10px; font-size: 16px;">👤
+                        Xem thành tích của:</label>
+                    <select id="ach-player-select" class="dropdown" onchange="Achievement.changePlayer(this.value)">
+                    </select>
+                </div>
+
+                <div id="ach-dashboard" class="selected-summary">
+                </div>
+
+                <div class="category-title">🎖️ Con Đường Chinh Phục</div>
+                <div id="rank-path" class="rank-scroll-container">
+                </div>
+            </div>
+        </div>
+
+        <div id="view-subjects" class="tab-content">
+            <div class="selected-summary" id="subject-summary" style="display: none;">
+                <div><b>Học Viên:</b> <span id="selected-player-name"></span></div>
+                <div><b>Môn đã chọn:</b> <span id="selected-subject-name"></span></div>
+                <button class="btn-next" onclick="App.switchTab('settings')">Tiếp tục cấu hình ➡️</button>
+            </div>
+            <div class="category-title">🔢 Toán Cơ Bản</div>
+            <div class="subjects-grid">
+                <div class="subject-card" onclick="Game.selectSubject('addition', event)">
+                    <div class="subject-icon">➕</div>
+                    <div class="subject-title">Phép Cộng</div>
+                    <div class="subject-desc">Luyện tập cộng số lớn</div>
+                </div>
+
+                <div class="subject-card" onclick="Game.selectSubject('multiplication', event)">
+                    <div class="subject-icon">✖️</div>
+                    <div class="subject-title">Phép Nhân</div>
+                    <div class="subject-desc">Bảng cửu chương siêu tốc</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-settings" class="tab-content">
+            <div class="game-header">
+                <div style="text-align: left; flex: 1;">
+                    <b>Học Viên:</b> <span id="settings-player"></span><br>
+                    <b>Môn Học:</b> <span id="settings-subject"></span>
+                </div>
+                <select id="sel-level" class="dropdown" onchange="Game.setLevel(this.value)"></select>
+            </div>
+            <div style="text-align: center; margin: 40px 0;">
+                <h3>✅ Sẵn sàng bắt đầu!</h3>
+                <p style="color: #666; margin-bottom: 30px;">Chọn cấp độ phù hợp rồi nhấn nút bên dưới</p>
+                <button class="btn-next" onclick="App.switchTab('game')">🚀 Bắt Đầu Chơi Ngay!</button>
+            </div>
+        </div>
+
+        <div id="view-game" class="tab-content">
+            <div class="game-header">
+                <div id="display-score" class="score-badge">Điểm: 0</div>
+                <div style="flex: 1; text-align: left;">
+                    <div id="game-info-bar"
+                        style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center; margin-bottom: 8px;">
+                        <span id="game-subject"
+                            style="font-weight: 600; background: #e3f2fd; padding: 3px 8px; border-radius: 6px;"></span>
+                        <span id="game-level"
+                            style="font-weight: 600; background: #e8f5e9; padding: 3px 8px; border-radius: 6px;"></span>
+                        <span id="game-points"
+                            style="font-weight: 600; background: #fff3e0; padding: 3px 8px; border-radius: 6px;"></span>
+                    </div>
+                    <button class="btn-ui back-btn" onclick="App.switchTab('settings')">⚙️ Thay đổi</button>
+                </div>
+            </div>
+            <div class="play-zone">
+                <div
+                    style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                    <button class="btn-opt" id="btn-read-question" onclick="SpeechService.speakQuestion()"
+                        style="width: 50px; height: 50px; font-size: 24px; background: var(--primary-color); box-shadow: 0 4px 0 var(--secondary-color); flex-shrink: 0;">🔊</button>
+                    <div id="text-question" style="font-size: 24px; font-weight: bold; text-align: left;"></div>
+                </div>
+                <div id="box-visual" class="visual-box"></div>
+                <div id="box-options" class="options-grid"></div>
+                <div id="text-feedback" style="font-size: 22px; font-weight: bold; margin-top: 20px; min-height: 30px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
