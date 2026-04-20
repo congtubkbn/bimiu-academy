@@ -129,13 +129,18 @@ class SoundService {
 
     static fireworkAudioUrl = 'https://raw.githubusercontent.com/congtubkbn/audio-assets/main/nhac-5-cau-dung.ogg';
 
+    // --- ĐƯỜNG DẪN BÁO LỖI NẾU CHƯA CÓ FILE TRÊN GITHUB ---
+    static bgmAudioUrl = 'https://raw.githubusercontent.com/congtubkbn/audio-assets/main/toy-box-tune.mp3';
+
     static trueCache = [];
     static falseCache = [];
-
     static fireworkCache = null; // Cache riêng cho pháo hoa
 
-    // Biến để theo dõi file âm thanh nào đang được phát
     static currentAudio = null;
+
+    // --- Biến cho Nhạc nền (BGM) ---
+    static bgmAudio = null;
+    static isBgmEnabled = true;
 
     static init() {
         // Tải trước (preload) âm thanh đúng
@@ -151,6 +156,35 @@ class SoundService {
 
         // Preload âm thanh pháo hoa
         this.fireworkCache = new Audio(this.fireworkAudioUrl);
+
+        // Khởi tạo Nhạc nền
+        this.bgmAudio = new Audio(this.bgmAudioUrl);
+        this.bgmAudio.loop = true;      // Phát lặp đi lặp lại
+        this.bgmAudio.volume = 0.15;    // Âm lượng siêu nhỏ (15%) để không ồn ào và lấn giọng đọc
+    }
+
+    static startBGM() {
+        if (this.isBgmEnabled && this.bgmAudio) {
+            this.bgmAudio.play().catch(e => console.log("Trình duyệt tạm chặn nhạc Autoplay:", e));
+        }
+    }
+
+    static stopBGM() {
+        if (this.bgmAudio) {
+            this.bgmAudio.pause();
+        }
+    }
+
+    static toggleBGM() {
+        this.isBgmEnabled = !this.isBgmEnabled;
+        const btn = document.getElementById('btn-toggle-bgm');
+        if (this.isBgmEnabled) {
+            this.startBGM();
+            if (btn) btn.innerHTML = "🎵 Tắt Nhạc";
+        } else {
+            this.stopBGM();
+            if (btn) btn.innerHTML = "🔇 Bật Nhạc";
+        }
     }
 
     // Phương thức phát âm thanh pháo hoa
@@ -990,9 +1024,29 @@ class App {
         if (tabId === 'about') {
             if (window.__BOOT_INFO__) {
                 document.getElementById('about-version').innerText = window.__BOOT_INFO__.version;
-                document.getElementById('about-source').innerText = window.__BOOT_INFO__.source;
+
+                let sourceText = window.__BOOT_INFO__.source;
+                let statusHtml = "✅ Đã đồng bộ";
+                let statusColor = "#27ae60";
+                let statusBg = "#e8f8f0";
+
+                if (sourceText.includes("Ngoại tuyến")) {
+                    statusHtml = "⚠️ Mất mạng (Chơi Offline)";
+                    statusColor = "#d35400";
+                    statusBg = "#ffeaa7";
+                } else if (sourceText.includes("Tải gói dữ liệu mới")) {
+                    statusHtml = "🌟 Vừa được cập nhật";
+                    statusColor = "#8e44ad";
+                    statusBg = "#f4f1fa";
+                }
+
+                const sourceEl = document.getElementById('about-source');
+                sourceEl.innerHTML = statusHtml;
+                sourceEl.style.color = statusColor;
+                sourceEl.style.backgroundColor = statusBg;
+
             } else {
-                document.getElementById('about-source').innerText = "Trực tiếp tĩnh (Web)";
+                document.getElementById('about-source').innerText = "🌐 Bản Web Tiêu Chuẩn";
             }
         }
         // ----------------------
@@ -1003,7 +1057,13 @@ class App {
             document.getElementById('settings-subject').textContent = Game.SUBJECT_NAMES[AppState.selectedSubject || 'addition'];
         }
 
-        if (tabId === 'game') { Game.newQuestion(); }
+        if (tabId === 'game') {
+            Game.newQuestion();
+            SoundService.startBGM(); // 🔊 Bật nhạc nền khi vào bàn chơi
+        } else {
+            SoundService.stopBGM();  // 🔇 Tắt nhạc nhạc khi thoát ra ngoài
+        }
+
         await this.syncAndRefreshPlayers();
     }
 
