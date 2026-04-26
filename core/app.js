@@ -1128,7 +1128,12 @@ class Game {
 
             optionsContainer.innerHTML = `
             <button class="btn-opt btn-correct-only">${this.currentAnswer}</button>
-            <button class="btn-next" onclick="Game.newQuestion()">Đi tiếp nào! 🚀</button>
+        `;
+
+            feedbackElement.innerHTML += `
+            <div class="floating-next-container">
+                <button class="btn-next floating-btn" onclick="Game.newQuestion()">Đi tiếp nào! 🚀</button>
+            </div>
         `;
         } else {
 
