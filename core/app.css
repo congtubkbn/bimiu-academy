@@ -910,6 +910,59 @@
             to { transform: translateX(0); opacity: 1; }
         }
 
+        /* --- GLOBAL FLOATING NAV --- */
+        .floating-nav {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 480px;
+            background: linear-gradient(135deg, #1a2a6c, #2a4858);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            z-index: 10001;
+            border: 2px solid #f1c40f;
+            animation: slideUpNav 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideUpNav {
+            from { transform: translate(-50%, 100px); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+
+        .floating-nav .info {
+            font-weight: 700;
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 10px;
+        }
+
+        .floating-nav .btn-go {
+            background: #f1c40f;
+            color: #1a2a6c;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #d4ac0d;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .floating-nav .btn-go:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #d4ac0d;
+        }
+
         /* --- FLOATING NEXT BUTTON --- */
         .floating-next-container {
             position: fixed;

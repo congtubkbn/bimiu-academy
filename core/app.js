@@ -428,7 +428,6 @@ class Player {
         await CloudService.syncPlayer(newPlayer);
         this.renderList();
     }
-
     static getPlayerRank(score) {
         // Tìm rank hiện tại: là rank đầu tiên có limit lớn hơn điểm số của bé
         const currentIndex = RANKS_CONFIG.findIndex(rank => score < rank.limit);
@@ -515,8 +514,8 @@ class Player {
         document.getElementById('selected-player-name').textContent = playerName;
         document.getElementById('settings-player').textContent = playerName;
 
-        // Tự động chuyển sang chọn môn học sau 400ms để tăng tốc trải nghiệm
-        setTimeout(() => App.switchTab('subjects'), 400);
+        // Cập nhật thanh điều hướng nổi
+        App.updateFloatingNav();
     }
 }
 
@@ -779,8 +778,8 @@ class Game {
         this.applyTheme();
         this.updateLevelDropdown();
 
-        // Tự động chuyển sang cấu hình sau 400ms
-        setTimeout(() => App.switchTab('settings'), 400);
+        // Cập nhật thanh điều hướng nổi
+        App.updateFloatingNav();
     }
 
     static updateLevelDropdown() {
@@ -1269,6 +1268,9 @@ class App {
     static async switchTab(tabId) {
         this.updateTabUI(tabId);
         this.updateProgressBar(tabId);
+        
+        // Ẩn/Hiện thanh điều hướng nổi tùy tab
+        this.updateFloatingNav();
 
         // Log hành động chuyển tab
         TrackingService.logAction('SWITCH_TAB', { target: tabId });
@@ -1347,6 +1349,8 @@ class App {
         }
     }
     static async syncAndRefreshPlayers() {
+        await CloudService.syncQueue();
+        await Player.init();
         const remoteData = await CloudService.fetchAll();
         if (remoteData && remoteData.length > 0) {
             Player.data = remoteData;
@@ -1357,6 +1361,31 @@ class App {
             if (achievementsTab && achievementsTab.classList.contains('active')) {
                 Achievement.render();
             }
+        }
+    }
+
+    static updateFloatingNav() {
+        const nav = document.getElementById('floating-nav');
+        if (!nav) return;
+
+        const currentTab = document.querySelector('.tab-content.active')?.id;
+        const player = Player.data.find(p => p.id === AppState.selectedPlayerId);
+        
+        if (currentTab === 'view-players' && player) {
+            nav.style.display = 'flex';
+            nav.innerHTML = `
+                <div class="info">👤 Bé: <b>${player.icon} ${player.name}</b></div>
+                <button class="btn-go" onclick="App.switchTab('subjects')">Tiếp tục ➡️</button>
+            `;
+        } else if (currentTab === 'view-subjects' && player && AppState.selectedSubject) {
+            const subjectName = Game.SUBJECT_NAMES[AppState.selectedSubject];
+            nav.style.display = 'flex';
+            nav.innerHTML = `
+                <div class="info">📚 Bé <b>${player.name}</b> chơi <b>${subjectName}</b></div>
+                <button class="btn-go" onclick="App.switchTab('settings')">Cấu hình ⚙️</button>
+            `;
+        } else {
+            nav.style.display = 'none';
         }
     }
 }
