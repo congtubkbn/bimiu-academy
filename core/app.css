@@ -1,4 +1,4 @@
-﻿        /* Thiết kế tiêu đề Biệt Đội Cú Mèo */
+        /* Thiết kế tiêu đề Biệt Đội Cú Mèo */
         .academy-header {
             background: linear-gradient(135deg, #1a2a6c, #2a4858);
             /* Màu xanh học viện */
@@ -629,4 +629,82 @@
             height: 100%;
             background: var(--success-color);
             transition: width 0.5s ease;
+        }
+
+        /* --- THEMES CHO KHÔNG GIAN CHƠI GAME --- */
+
+        /* 1. Theme Rừng Xanh (Phép Cộng) */
+        .theme-jungle {
+            background: linear-gradient(180deg, #e8f5e9 0%, #c8e6c9 100%) !important;
+            border-color: #2e7d32 !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-jungle::before {
+            content: "🌿 🌳 🐵 🍃 🍄";
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            font-size: 20px;
+            opacity: 0.2;
+            letter-spacing: 20px;
+            pointer-events: none;
+        }
+
+        /* 2. Theme Đại Dương (Phép Trừ) */
+        .theme-ocean {
+            background: linear-gradient(180deg, #e1f5fe 0%, #b3e5fc 100%) !important;
+            border-color: #0288d1 !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-ocean::before {
+            content: "🌊 🐠 🐙 🐚 🐬";
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            font-size: 20px;
+            opacity: 0.2;
+            letter-spacing: 20px;
+            pointer-events: none;
+            animation: ocean-wave 5s ease-in-out infinite;
+        }
+        @keyframes ocean-wave {
+            0%, 100% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+        }
+
+        /* 3. Theme Vũ Trụ (Phép Nhân) */
+        .theme-universe {
+            background: linear-gradient(180deg, #1a237e 0%, #311b92 100%) !important;
+            border-color: #512da8 !important;
+            color: #fff !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-universe #text-question, .theme-universe #text-feedback {
+            color: #fff !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        .theme-universe .visual-box {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .theme-universe::before {
+            content: "🚀 🪐 👾 🌠 🛰️";
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            width: 100%;
+            font-size: 20px;
+            opacity: 0.3;
+            letter-spacing: 25px;
+            pointer-events: none;
+            animation: space-float 6s ease-in-out infinite;
+        }
+        @keyframes space-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }

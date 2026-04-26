@@ -727,6 +727,24 @@ class Game {
         if (!AppState.selectedSubject) AppState.selectedSubject = 'addition';
         this.updateLevelDropdown();
         if (AppState.selectedPlayerId) this.updateScoreUI();
+        this.applyTheme();
+    }
+
+    static applyTheme() {
+        const playZone = document.querySelector('.play-zone');
+        if (!playZone) return;
+
+        // Xóa các class theme cũ
+        playZone.classList.remove('theme-jungle', 'theme-ocean', 'theme-universe');
+
+        // Áp dụng theme mới dựa trên môn học
+        if (AppState.selectedSubject === 'addition') {
+            playZone.classList.add('theme-jungle');
+        } else if (AppState.selectedSubject === 'subtraction') {
+            playZone.classList.add('theme-ocean');
+        } else if (AppState.selectedSubject === 'multiplication') {
+            playZone.classList.add('theme-universe');
+        }
     }
 
     static getConfig() {
@@ -752,6 +770,7 @@ class Game {
         document.getElementById('selected-subject-name').textContent = this.SUBJECT_NAMES[subjectId];
         document.getElementById('subject-summary').style.display = 'flex';
 
+        this.applyTheme();
         this.updateLevelDropdown();
     }
 
