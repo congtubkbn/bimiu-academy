@@ -511,8 +511,9 @@ class Player {
         const selectedPlayer = Player.data.find(p => p.id === playerId);
         const playerName = selectedPlayer?.name || '';
 
-        document.getElementById('selected-player-name').textContent = playerName;
-        document.getElementById('settings-player').textContent = playerName;
+        // Safe update - chỉ cập nhật nếu element tồn tại
+        const settingsPlayerEl = document.getElementById('settings-player');
+        if (settingsPlayerEl) settingsPlayerEl.textContent = playerName;
 
         // Cập nhật thanh điều hướng nổi
         App.updateFloatingNav();
