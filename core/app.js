@@ -562,6 +562,7 @@ class Game {
 
     static SUBJECT_NAMES = {
         'addition': '➕ Phép Cộng',
+        'subtraction': '➖ Phép Trừ',
         'multiplication': '✖️ Phép Nhân'
     };
 
@@ -666,6 +667,62 @@ class Game {
         ]
     };
 
+    static SUBTRACTION_CONFIG = {
+        totalLevels: 50,
+        levels: [
+            { minA: 2, maxA: 3, minResult: 0, maxResult: 2, points: 1, desc: "Bé tập trừ (Trong 3)" },
+            { minA: 3, maxA: 4, minResult: 0, maxResult: 3, points: 2, desc: "Trừ nhỏ (Trong 4)" },
+            { minA: 4, maxA: 5, minResult: 0, maxResult: 3, points: 3, desc: "Vượt qua 4 (Trong 5)" },
+            { minA: 3, maxA: 5, minResult: 0, maxResult: 4, points: 4, desc: "Tự tin trong 5" },
+            { minA: 2, maxA: 5, minResult: 0, maxResult: 4, points: 5, desc: "Chinh phục phạm vi 5" },
+            { minA: 4, maxA: 6, minResult: 0, maxResult: 4, points: 6, desc: "Khám phá (Trong 6)" },
+            { minA: 5, maxA: 7, minResult: 0, maxResult: 5, points: 7, desc: "Tiến lên 7" },
+            { minA: 6, maxA: 8, minResult: 0, maxResult: 6, points: 8, desc: "Chinh phục 8" },
+            { minA: 7, maxA: 9, minResult: 0, maxResult: 7, points: 9, desc: "Tiệm cận 10" },
+            { minA: 8, maxA: 10, minResult: 0, maxResult: 8, points: 10, desc: "Chạm mốc 10" },
+            { minA: 5, maxA: 10, minResult: 0, maxResult: 7, points: 11, desc: "Cao thủ trong 10" },
+            { minA: 2, maxA: 10, minResult: 0, maxResult: 9, points: 12, desc: "Bậc thầy trong 10 🎓" },
+            { minA: 10, maxA: 13, minResult: 1, maxResult: 9, points: 13, desc: "Khám phá số Teen" },
+            { minA: 11, maxA: 14, minResult: 1, maxResult: 10, points: 14, desc: "Teen bước 1" },
+            { minA: 13, maxA: 16, minResult: 1, maxResult: 10, points: 15, desc: "Teen bước 2" },
+            { minA: 15, maxA: 18, minResult: 1, maxResult: 12, points: 16, desc: "Teen bước 3" },
+            { minA: 16, maxA: 20, minResult: 1, maxResult: 14, points: 17, desc: "Tiến đến 20" },
+            { minA: 10, maxA: 15, minResult: 0, maxResult: 12, points: 18, desc: "Luyện Teen (Nhỏ)" },
+            { minA: 15, maxA: 20, minResult: 0, maxResult: 14, points: 19, desc: "Luyện Teen (Lớn)" },
+            { minA: 10, maxA: 20, minResult: 0, maxResult: 19, points: 20, desc: "Bậc thầy trong 20 🎓" },
+            { minA: 20, maxA: 25, minResult: 1, maxResult: 15, points: 21, desc: "Vượt mốc 20" },
+            { minA: 20, maxA: 25, minResult: 5, maxResult: 20, points: 22, desc: "Tập trừ lớn (1)" },
+            { minA: 25, maxA: 30, minResult: 5, maxResult: 20, points: 23, desc: "Tiến đến 30" },
+            { minA: 20, maxA: 30, minResult: 0, maxResult: 25, points: 24, desc: "Chinh phục 30" },
+            { minA: 30, maxA: 35, minResult: 5, maxResult: 25, points: 25, desc: "Vượt mốc 30" },
+            { minA: 30, maxA: 40, minResult: 5, maxResult: 30, points: 26, desc: "Chinh phục 40" },
+            { minA: 40, maxA: 45, minResult: 5, maxResult: 30, points: 27, desc: "Vượt mốc 40" },
+            { minA: 40, maxA: 50, minResult: 5, maxResult: 40, points: 28, desc: "Chạm mốc 50" },
+            { minA: 20, maxA: 50, minResult: 0, maxResult: 40, points: 29, desc: "Cao thủ trong 50" },
+            { minA: 20, maxA: 50, minResult: 0, maxResult: 45, points: 30, desc: "Bậc thầy trong 50 🎓" },
+            { minA: 50, maxA: 60, minResult: 1, maxResult: 25, points: 31, desc: "Vượt mốc 50" },
+            { minA: 50, maxA: 60, minResult: 10, maxResult: 40, points: 32, desc: "Trừ lớn trong 60" },
+            { minA: 60, maxA: 70, minResult: 10, maxResult: 40, points: 33, desc: "Chinh phục 70" },
+            { minA: 60, maxA: 80, minResult: 10, maxResult: 50, points: 34, desc: "Chinh phục 80" },
+            { minA: 70, maxA: 80, minResult: 20, maxResult: 60, points: 35, desc: "Trừ lớn trong 80" },
+            { minA: 80, maxA: 90, minResult: 20, maxResult: 70, points: 36, desc: "Chinh phục 90" },
+            { minA: 80, maxA: 100, minResult: 20, maxResult: 75, points: 37, desc: "Chạm mốc 100" },
+            { minA: 50, maxA: 80, minResult: 0, maxResult: 70, points: 38, desc: "Cao thủ trong 100 (1)" },
+            { minA: 50, maxA: 100, minResult: 0, maxResult: 80, points: 39, desc: "Cao thủ trong 100 (2)" },
+            { minA: 50, maxA: 100, minResult: 0, maxResult: 90, points: 40, desc: "Bậc thầy trong 100 🎓" },
+            { minA: 100, maxA: 150, minResult: 10, maxResult: 80, points: 41, desc: "Trừ số hàng trăm" },
+            { minA: 100, maxA: 200, minResult: 20, maxResult: 150, points: 42, desc: "Tiến đến 200" },
+            { minA: 200, maxA: 300, minResult: 50, maxResult: 200, points: 43, desc: "Chinh phục 300" },
+            { minA: 200, maxA: 300, minResult: 100, maxResult: 250, points: 44, desc: "Trừ lớn trong 300" },
+            { minA: 300, maxA: 400, minResult: 100, maxResult: 300, points: 45, desc: "Vượt mốc 400" },
+            { minA: 400, maxA: 500, minResult: 100, maxResult: 400, points: 46, desc: "Chinh phục 500" },
+            { minA: 500, maxA: 700, minResult: 200, maxResult: 600, points: 47, desc: "Huyền thoại 700" },
+            { minA: 700, maxA: 900, minResult: 300, maxResult: 800, points: 48, desc: "Huyền thoại 900" },
+            { minA: 500, maxA: 1000, minResult: 100, maxResult: 800, points: 49, desc: "Huyền thoại 1000" },
+            { minA: 500, maxA: 1000, minResult: 100, maxResult: 950, points: 50, desc: "Vị Thần Trừ Pháp 🏆" }
+        ]
+    };
+
     static init() {
         if (!AppState.selectedSubject) AppState.selectedSubject = 'addition';
         this.updateLevelDropdown();
@@ -673,7 +730,9 @@ class Game {
     }
 
     static getConfig() {
-        return AppState.selectedSubject === 'multiplication' ? this.MULTIPLICATION_CONFIG : this.ADDITION_CONFIG;
+        if (AppState.selectedSubject === 'multiplication') return this.MULTIPLICATION_CONFIG;
+        if (AppState.selectedSubject === 'subtraction') return this.SUBTRACTION_CONFIG;
+        return this.ADDITION_CONFIG;
     }
 
     static selectSubject(subjectId, event) {
@@ -793,6 +852,19 @@ class Game {
         return stories[Math.floor(Math.random() * stories.length)];
     }
 
+    static getSubtractionStoryQuestion(a, b) {
+        const stories = [
+            `Bi có ${a} viên kẹo sô-cô-la, Bi ăn mất ${b} viên ngon lành. Hỏi Bi còn mấy viên kẹo?`,
+            `Miu hái được ${a} bông hoa hồng tặng mẹ, nhưng trên đường về bị rơi mất ${b} bông. Hỏi Miu còn mấy bông?`,
+            `Trên cành cây có ${a} chú chim sẻ, bỗng có ${b} chú chim bay đi mất. Còn lại mấy chú chim trên cành?`,
+            `Công chúa Elsa tạo ra ${a} cột băng, do trời nắng nên ${b} cột bị tan chảy. Còn lại bao nhiêu cột băng?`,
+            `Người Nhện giăng được ${a} lớp mạng nhện, kẻ xấu đã dùng kiếm cắt đứt ${b} lớp. Còn lại bao nhiêu lớp mạng?`,
+            `Trong rương kho báu có ${a} đồng tiền vàng, Bi đã lấy ${b} đồng để mua đồ chơi. Trong rương còn lại bao nhiêu?`,
+            `Đoàn tàu hoạt hình có ${a} toa, đến ga đã tháo rời ${b} toa hàng. Hỏi đoàn tàu còn lại bao nhiêu toa?`
+        ];
+        return stories[Math.floor(Math.random() * stories.length)];
+    }
+
     static newQuestion() {
         this.changeOwlMood('normal'); // Reset cú mèo về trạng thái bình thường khi sang câu mới
         TrackingService.startQuizTimer();
@@ -818,6 +890,15 @@ class Game {
 
                 document.getElementById('text-question').innerText = this.getMultiplicationStoryQuestion(num1, num2);
                 mathExpression = `${num1} <span style="color: #e74c3c;">✖️</span> ${num2}`;
+            } else if (AppState.selectedSubject === 'subtraction') {
+                const a = Math.floor(Math.random() * (levelConfig.maxA - levelConfig.minA + 1)) + levelConfig.minA;
+                const maxRes = Math.min(levelConfig.maxResult, a);
+                const result = Math.floor(Math.random() * (maxRes - levelConfig.minResult + 1)) + levelConfig.minResult;
+                const b = a - result;
+
+                this.currentAnswer = result;
+                document.getElementById('text-question').innerText = this.getSubtractionStoryQuestion(a, b);
+                mathExpression = `${a} <span style="color: #e74c3c;">➖</span> ${b}`;
             } else {
                 const termsCount = levelConfig.terms || 2;
                 const minTotal = Math.max(levelConfig.min, termsCount);
