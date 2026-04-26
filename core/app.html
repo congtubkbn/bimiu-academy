@@ -100,12 +100,29 @@
     </div>
 
     <div id="view-settings" class="tab-content">
+        <div class="category-title">Chế độ học tập</div>
+        <div class="mode-selection">
+            <div id="mode-adventure" class="mode-card active" onclick="Game.toggleAdventureMode(true)">
+                <div class="mode-icon">🚀</div>
+                <div class="mode-name">Thám Hiểm</div>
+                <div class="mode-desc">Máy tính tự động tăng độ khó khi bé giỏi</div>
+            </div>
+            <div id="mode-manual" class="mode-card" onclick="Game.toggleAdventureMode(false)">
+                <div class="mode-icon">🎯</div>
+                <div class="mode-name">Tập Luyện</div>
+                <div class="mode-desc">Bé tự chọn cấp độ mình muốn</div>
+            </div>
+        </div>
+
         <div class="game-header">
             <div style="text-align: left; flex: 1;">
                 <b>Học Viên:</b> <span id="settings-player"></span><br>
                 <b>Môn Học:</b> <span id="settings-subject"></span>
             </div>
-            <select id="sel-level" class="dropdown" onchange="Game.setLevel(this.value)"></select>
+            <div class="p-info">
+                <div class="category-title" style="margin:0; border:none; font-size:14px;">Chọn cấp độ thủ công:</div>
+                <select id="sel-level" class="dropdown" onchange="Game.setLevel(this.value)" style="opacity:0.5" disabled></select>
+            </div>
         </div>
         <div style="text-align: center; margin: 40px 0;">
             <h3>✅ Sẵn sàng bắt đầu!</h3>
@@ -124,6 +141,7 @@
                         style="font-weight: 600; background: #e3f2fd; padding: 3px 8px; border-radius: 6px;"></span>
                     <span id="game-level"
                         style="font-weight: 600; background: #e8f5e9; padding: 3px 8px; border-radius: 6px;"></span>
+                    <div id="streak-indicator" class="streak-container"></div>
                     <span id="game-points"
                         style="font-weight: 600; background: #fff3e0; padding: 3px 8px; border-radius: 6px;"></span>
                 </div>

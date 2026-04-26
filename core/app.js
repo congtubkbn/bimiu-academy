@@ -69,7 +69,10 @@ const AppState = {
     selectedSubject: null,
     currentLevel: 0,
 
-    sessionId: 'sess_' + Date.now() // Định danh phiên làm việc
+    sessionId: 'sess_' + Date.now(), // Định danh phiên làm việc
+    isAdventureMode: true,           // Mặc định bật chế độ thám hiểm cho chuyên nghiệp
+    correctStreak: 0,                // Chuỗi đúng liên tiếp
+    incorrectStreak: 0               // Chuỗi sai liên tiếp
 };
 
 /* --- THÊM CLASS TRACKING MỚI --- */
@@ -785,7 +788,40 @@ class Game {
 
     static setLevel(lv) {
         AppState.currentLevel = parseInt(lv);
+        AppState.correctStreak = 0; // Reset chuỗi khi đổi level thủ công
+        AppState.incorrectStreak = 0;
         TrackingService.logAction('CHANGE_LEVEL', { level: AppState.currentLevel + 1 });
+    }
+
+    static toggleAdventureMode(enabled) {
+        AppState.isAdventureMode = enabled;
+        AppState.correctStreak = 0;
+        AppState.incorrectStreak = 0;
+        
+        // Cập nhật UI nút chọn
+        document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
+        if (enabled) {
+            document.getElementById('mode-adventure').classList.add('active');
+            document.getElementById('sel-level').disabled = true;
+            document.getElementById('sel-level').style.opacity = "0.5";
+        } else {
+            document.getElementById('mode-manual').classList.add('active');
+            document.getElementById('sel-level').disabled = false;
+            document.getElementById('sel-level').style.opacity = "1";
+        }
+        TrackingService.logAction('TOGGLE_ADVENTURE', { enabled });
+    }
+
+    static showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `game-toast toast-${type}`;
+        toast.innerText = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 500);
+        }, 2500);
     }
 
     static updateScoreUI() {
@@ -810,8 +846,23 @@ class Game {
 
     static updateGameInfo() {
         document.getElementById('game-subject').textContent = this.SUBJECT_NAMES[AppState.selectedSubject];
-        document.getElementById('game-level').textContent = `🎯 Cấp ${AppState.currentLevel + 1}`;
+        document.getElementById('game-level').textContent = (AppState.isAdventureMode ? "🚀 " : "🎯 ") + `Cấp ${AppState.currentLevel + 1}`;
         document.getElementById('game-points').textContent = `✅ +${this.currentPoints} / ❌ -${this.currentPoints}`;
+        
+        // Hiển thị thanh năng lượng nếu ở chế độ thám hiểm
+        const streakContainer = document.getElementById('streak-indicator');
+        if (streakContainer) {
+            if (AppState.isAdventureMode) {
+                streakContainer.style.display = 'flex';
+                let dots = "";
+                for(let i=0; i<3; i++) {
+                    dots += `<span class="streak-dot ${i < AppState.correctStreak ? 'active' : ''}">⭐</span>`;
+                }
+                streakContainer.innerHTML = dots;
+            } else {
+                streakContainer.style.display = 'none';
+            }
+        }
     }
 
     static getAdditionStoryQuestion(numbers) {
@@ -1011,6 +1062,20 @@ class Game {
             let streakText = this.consecutiveCorrectCount >= 2 ? ` (🔥 Đang đúng ${this.consecutiveCorrectCount} câu liên tiếp!)` : '';
             feedbackElement.innerHTML = `<span style="color:var(--success-color)">🌟 Xuất sắc, ${player.name} ơi! Đúng rồi (+${this.currentPoints} điểm)! <br><span style="font-size: 16px; color: #d35400;">${streakText}</span></span>`;
 
+            // --- ADVENTURE MODE LOGIC: THĂNG CẤP ---
+            if (AppState.isAdventureMode) {
+                AppState.correctStreak++;
+                AppState.incorrectStreak = 0;
+                if (AppState.correctStreak >= 3) {
+                    const config = this.getConfig();
+                    if (AppState.currentLevel < config.levels.length - 1) {
+                        AppState.currentLevel++;
+                        AppState.correctStreak = 0;
+                        this.showToast("🚀 TUYỆT VỜI! Bạn đã thăng lên Cấp " + (AppState.currentLevel + 1), "success");
+                    }
+                }
+            }
+
             optionsContainer.innerHTML = `
             <button class="btn-opt btn-correct-only">${this.currentAnswer}</button>
             <button class="btn-next" onclick="Game.newQuestion()">Đi tiếp nào! 🚀</button>
@@ -1021,6 +1086,19 @@ class Game {
 
             // Trả lời sai mới reset chuỗi về 0
             this.consecutiveCorrectCount = 0;
+
+            // --- ADVENTURE MODE LOGIC: HẠ CẤP ---
+            if (AppState.isAdventureMode) {
+                AppState.correctStreak = 0;
+                AppState.incorrectStreak++;
+                if (AppState.incorrectStreak >= 2) {
+                    if (AppState.currentLevel > 0) {
+                        AppState.currentLevel--;
+                        AppState.incorrectStreak = 0;
+                        this.showToast("🛡️ Cố lên! Chúng ta lùi lại Cấp " + (AppState.currentLevel + 1) + " để ôn tập nhé", "info");
+                    }
+                }
+            }
 
             // PHÁT ÂM THANH SAI
             SoundService.playFalseSound();

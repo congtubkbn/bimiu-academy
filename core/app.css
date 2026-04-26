@@ -708,3 +708,100 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
+
+        /* --- CHẾ ĐỘ THÁM HIỂM (ADVENTURE MODE) --- */
+        .mode-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .mode-card {
+            background: white;
+            border: 3px solid #eee;
+            border-radius: 16px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .mode-card.active {
+            border-color: #f1c40f !important;
+            background: #fff9e6 !important;
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(241, 196, 15, 0.2);
+        }
+
+        .mode-icon {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .mode-name {
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--primary-color);
+        }
+
+        .mode-desc {
+            font-size: 11px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        /* Streak Indicator */
+        .streak-container {
+            display: flex;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 2px 8px;
+            border-radius: 15px;
+        }
+
+        .streak-dot {
+            font-size: 14px;
+            filter: grayscale(1);
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+
+        .streak-dot.active {
+            filter: grayscale(0);
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        /* Game Toast Notification */
+        .game-toast {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            padding: 15px 30px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 800;
+            font-size: 20px;
+            z-index: 10000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .game-toast.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .toast-success {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            border: 3px solid #fff;
+        }
+
+        .toast-info {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+            border: 3px solid #fff;
+        }
