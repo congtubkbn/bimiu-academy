@@ -514,6 +514,9 @@ class Player {
 
         document.getElementById('selected-player-name').textContent = playerName;
         document.getElementById('settings-player').textContent = playerName;
+
+        // Tự động chuyển sang chọn môn học sau 400ms để tăng tốc trải nghiệm
+        setTimeout(() => App.switchTab('subjects'), 400);
     }
 }
 
@@ -775,6 +778,9 @@ class Game {
 
         this.applyTheme();
         this.updateLevelDropdown();
+
+        // Tự động chuyển sang cấu hình sau 400ms
+        setTimeout(() => App.switchTab('settings'), 400);
     }
 
     static updateLevelDropdown() {
@@ -892,6 +898,12 @@ class Game {
     }
 
     static updateGameInfo() {
+        const player = Player.data.find(p => p.id === AppState.selectedPlayerId);
+        if (player) {
+            document.getElementById('playing-player-icon').textContent = player.icon;
+            document.getElementById('playing-player-name').textContent = player.name;
+        }
+
         document.getElementById('game-subject').textContent = this.SUBJECT_NAMES[AppState.selectedSubject];
         document.getElementById('game-level').textContent = (AppState.isAdventureMode ? "🚀 " : "🎯 ") + `Cấp ${AppState.currentLevel + 1}`;
         document.getElementById('game-points').textContent = `✅ +${this.currentPoints} / ❌ -${this.currentPoints}`;

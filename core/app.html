@@ -46,9 +46,6 @@
                 <button class="btn-ui btn-save" onclick="Player.addNew()">Thêm Học Viên</button>
             </div>
             <div id="list-players"></div>
-            <div style="text-align: center; margin-top: 20px;">
-                <button class="btn-next" onclick="App.switchTab('subjects')">Tiếp tục chọn môn học ➡️</button>
-            </div>
         </div>
     </div>
 
@@ -72,11 +69,6 @@
     </div>
 
     <div id="view-subjects" class="tab-content">
-        <div class="selected-summary" id="subject-summary" style="display: none;">
-            <div><b>Học Viên:</b> <span id="selected-player-name"></span></div>
-            <div><b>Môn đã chọn:</b> <span id="selected-subject-name"></span></div>
-            <button class="btn-next" onclick="App.switchTab('settings')">Tiếp tục cấu hình ➡️</button>
-        </div>
         <div class="category-title">🔢 Toán Cơ Bản</div>
         <div class="subjects-grid">
             <div class="subject-card" onclick="Game.selectSubject('addition', event)">
@@ -133,6 +125,10 @@
 
     <div id="view-game" class="tab-content">
         <div class="game-header">
+            <div id="playing-player-badge" class="playing-badge">
+                <span id="playing-player-icon"></span>
+                <span id="playing-player-name"></span>
+            </div>
             <div id="display-score" class="score-badge">Điểm: 0</div>
             <div style="flex: 1; text-align: left;">
                 <div id="game-info-bar"

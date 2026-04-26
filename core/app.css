@@ -9,6 +9,9 @@
             border-bottom: 5px solid #f1c40f;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* Hiệu ứng lấp lánh như sao đêm phía sau */
@@ -871,6 +874,40 @@
             padding: 8px 15px;
             border-radius: 15px;
             display: inline-block;
+        }
+
+        /* --- PLAYING BADGE --- */
+        .playing-badge {
+            background: #fff;
+            border: 3px solid #3498db;
+            padding: 8px 18px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 18px;
+            color: #2c3e50;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            animation: slideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            align-self: center;
+        }
+
+        #playing-player-icon {
+            font-size: 24px;
+            background: #ebf5fb;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         /* --- FLOATING NEXT BUTTON --- */
