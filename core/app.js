@@ -802,13 +802,14 @@ class Game {
         document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
         if (enabled) {
             document.getElementById('mode-adventure').classList.add('active');
-            document.getElementById('sel-level').disabled = true;
-            document.getElementById('sel-level').style.opacity = "0.5";
         } else {
             document.getElementById('mode-manual').classList.add('active');
-            document.getElementById('sel-level').disabled = false;
-            document.getElementById('sel-level').style.opacity = "1";
         }
+        
+        // Luôn cho phép chọn level (làm mốc bắt đầu cho Thám Hiểm)
+        document.getElementById('sel-level').disabled = false;
+        document.getElementById('sel-level').style.opacity = "1";
+
         TrackingService.logAction('TOGGLE_ADVENTURE', { enabled });
     }
 
