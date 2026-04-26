@@ -831,18 +831,64 @@ class Game {
 
         if (player) {
             const rankData = Player.getPlayerRank(player.score);
-            let encouragementHtml = rankData.next ?
-                `<div style="font-size: 14px; color: #2980b9; margin-top: 6px; font-weight: normal;">Còn <b>${rankData.pointsNeeded}</b> điểm nữa ➡️ <b>${rankData.next.icon} ${rankData.next.name}</b></div>` :
-                `<div style="font-size: 14px; color: #27ae60; margin-top: 6px;">🌟 Đã đạt cấp độ tối đa!</div>`;
+            let encouragementHtml = "";
+            
+            if (rankData.next) {
+                // Tính % hoàn thành rank hiện tại
+                const currentIndex = RANKS_CONFIG.findIndex(r => r.name === rankData.current.name);
+                const previousLimit = currentIndex > 0 ? RANKS_CONFIG[currentIndex - 1].limit : 0;
+                const totalPointsForThisRank = rankData.current.limit - previousLimit;
+                const pointsEarnedInThisRank = player.score - previousLimit;
+                const progressPercent = Math.min(100, Math.max(0, (pointsEarnedInThisRank / totalPointsForThisRank) * 100));
+
+                encouragementHtml = `
+                    <div style="font-size: 11px; color: #666; margin-top: 8px; font-weight: 600;">Tiến trình tới: ${rankData.next.icon} ${rankData.next.name}</div>
+                    <div class="rank-progress-bar">
+                        <div class="rank-progress-fill" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <div style="font-size: 11px; color: #2980b9; font-weight: bold; margin-top: 2px;">Cần +${rankData.pointsNeeded} điểm nữa</div>
+                `;
+            } else {
+                encouragementHtml = `<div style="font-size: 14px; color: #27ae60; margin-top: 6px; font-weight: bold;">🌟 Vô cực! Đỉnh cao!</div>`;
+            }
 
             scoreContainer.innerHTML = `
-                    <div class="rank-badge" style="border-color: #e67e22;">${rankData.current.icon} ${rankData.current.name}</div>
-                    <div style="margin-top: 5px;">${player.name}: ${player.score} điểm</div>
-                    ${encouragementHtml}
-                `;
+                <div class="rank-badge" style="border-color: #e67e22; font-size: 14px; padding: 4px 10px;">${rankData.current.icon} ${rankData.current.name}</div>
+                <div style="margin-top: 5px; color: var(--primary-color); font-size: 22px; font-weight: bold;">${player.score} <span style="font-size: 12px; color: #666; font-weight: normal;">điểm</span></div>
+                ${encouragementHtml}
+            `;
         } else {
             scoreContainer.innerHTML = 'Điểm: 0';
         }
+    }
+
+    static showRankUpCelebration(rank) {
+        this.triggerConfetti();
+        SoundService.playFireworkSound();
+
+        const toast = document.createElement('div');
+        toast.className = 'game-toast toast-rankup show';
+        toast.innerHTML = `
+            <div class="rankup-icon">${rank.icon}</div>
+            <div class="rankup-title">THĂNG CẤP DANH HIỆU!</div>
+            <div class="rankup-subtitle">Bé đã xuất sắc trở thành</div>
+            <div class="rankup-name">${rank.name}</div>
+        `;
+        document.body.appendChild(toast);
+
+        // Bấm vào để tắt sớm
+        toast.onclick = () => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 500);
+        };
+
+        // Tự động tắt sau 5 giây
+        setTimeout(() => {
+            if (document.body.contains(toast)) {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }
+        }, 5000);
     }
 
     static updateGameInfo() {
@@ -1042,6 +1088,9 @@ class Game {
 
         if (!player) return;
 
+        // Lưu Rank cũ trước khi cộng điểm
+        const oldRankName = Player.getPlayerRank(player.score).current.name;
+
         if (selectedValue === this.currentAnswer) {
 
             this.changeOwlMood('happy'); // <--- THÊM DÒNG NÀY (Cú mèo vui sướng)
@@ -1108,7 +1157,18 @@ class Game {
             if (player.score < 0) player.score = 0;
             feedbackElement.innerHTML = `<span style="color:var(--error-color)">❌ Tiếc quá ${player.name} ơi! Bị trừ ${this.currentPoints} điểm. Thử lại nhé!</span>`;
         }
+
+        // Cập nhật điểm lên UI
         this.updateScoreUI();
+
+        // Kiểm tra xem có được thăng cấp không
+        if (isCorrect) {
+            const newRank = Player.getPlayerRank(player.score).current;
+            if (newRank.name !== oldRankName) {
+                this.showRankUpCelebration(newRank);
+            }
+        }
+
         await CloudService.syncPlayer(player);
     }
 }
