@@ -892,6 +892,9 @@ class Game {
         const levelSelect = document.getElementById('sel-level');
         const config = this.getConfig();
         levelSelect.innerHTML = config.levels.map((level, index) => {
+            if (AppState.selectedSubject === 'logic') {
+                return `<option value="${index}">Cấp ${index + 1} | ${level.desc} | Điểm: +${level.points} / -0</option>`;
+            }
             return `<option value="${index}">Cấp ${index + 1} | ${level.desc} | Điểm: ±${level.points}</option>`;
         }).join('');
         levelSelect.value = AppState.currentLevel;
@@ -1011,7 +1014,12 @@ class Game {
 
         document.getElementById('game-subject').textContent = this.SUBJECT_NAMES[AppState.selectedSubject];
         document.getElementById('game-level').textContent = (AppState.isAdventureMode ? "🚀 " : "🎯 ") + `Cấp ${AppState.currentLevel + 1}`;
-        document.getElementById('game-points').textContent = `✅ +${this.currentPoints} / ❌ -${this.currentPoints}`;
+        
+        if (AppState.selectedSubject === 'logic') {
+            document.getElementById('game-points').textContent = `✅ +${this.currentPoints} / ❌ -0`;
+        } else {
+            document.getElementById('game-points').textContent = `✅ +${this.currentPoints} / ❌ -${this.currentPoints}`;
+        }
         
         // Hiển thị thanh năng lượng nếu ở chế độ thám hiểm
         const streakContainer = document.getElementById('streak-indicator');
