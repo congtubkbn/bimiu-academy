@@ -1188,9 +1188,6 @@ class Game {
         this.renderOptions(this.currentAnswer);
     }
 
-        this.renderOptions(this.currentAnswer);
-    }
-
     static currentPyramid = [];
     static hiddenCells = [];
     static selectedCell = null;
