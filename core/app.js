@@ -808,26 +808,26 @@ class Game {
     static LOGIC_CONFIG = {
         totalLevels: 20,
         levels: [
-            { rows: 3, hiddenCount: 1, maxNum: 10, points: 100, desc: "Tháp 3 tầng (1 ô ẩn, số < 10)" },
-            { rows: 3, hiddenCount: 1, maxNum: 15, points: 105, desc: "Tháp 3 tầng (1 ô ẩn, số < 15)" },
-            { rows: 3, hiddenCount: 1, maxNum: 20, points: 110, desc: "Tháp 3 tầng (1 ô ẩn, số < 20)" },
-            { rows: 3, hiddenCount: 2, maxNum: 25, points: 115, desc: "Tháp 3 tầng (2 ô ẩn, số < 25)" },
-            { rows: 3, hiddenCount: 3, maxNum: 30, points: 120, desc: "Tháp 3 tầng (3 ô ẩn, số < 30)" },
-            { rows: 4, hiddenCount: 1, maxNum: 50, points: 125, desc: "Tháp 4 tầng (1 ô ẩn, số < 50)" },
-            { rows: 4, hiddenCount: 2, maxNum: 60, points: 130, desc: "Tháp 4 tầng (2 ô ẩn, số < 60)" },
-            { rows: 4, hiddenCount: 3, maxNum: 80, points: 135, desc: "Tháp 4 tầng (3 ô ẩn, số < 80)" },
-            { rows: 4, hiddenCount: 4, maxNum: 100, points: 140, desc: "Tháp 4 tầng (4 ô ẩn, số < 100)" },
-            { rows: 4, hiddenCount: 5, maxNum: 120, points: 145, desc: "Tháp 4 tầng (5 ô ẩn, số < 120)" },
-            { rows: 5, hiddenCount: 2, maxNum: 150, points: 150, desc: "Tháp 5 tầng (2 ô ẩn, số < 150)" },
-            { rows: 5, hiddenCount: 4, maxNum: 200, points: 155, desc: "Tháp 5 tầng (4 ô ẩn, số < 200)" },
-            { rows: 5, hiddenCount: 6, maxNum: 250, points: 160, desc: "Tháp 5 tầng (6 ô ẩn, số < 250)" },
-            { rows: 5, hiddenCount: 8, maxNum: 300, points: 165, desc: "Tháp 5 tầng (8 ô ẩn, số < 300)" },
-            { rows: 5, hiddenCount: 10, maxNum: 400, points: 170, desc: "Tháp 5 tầng (10 ô ẩn, số < 400)" },
-            { rows: 6, hiddenCount: 3, maxNum: 500, points: 175, desc: "Tháp 6 tầng (3 ô ẩn, số < 500)" },
-            { rows: 6, hiddenCount: 6, maxNum: 600, points: 180, desc: "Tháp 6 tầng (6 ô ẩn, số < 600)" },
-            { rows: 6, hiddenCount: 9, maxNum: 800, points: 185, desc: "Tháp 6 tầng (9 ô ẩn, số < 800)" },
-            { rows: 6, hiddenCount: 12, maxNum: 1000, points: 190, desc: "Tháp 6 tầng (12 ô ẩn, số < 1000)" },
-            { rows: 6, hiddenCount: 15, maxNum: 1500, points: 200, desc: "Tháp 6 tầng (Boss, số < 1500)" }
+            { rows: 3, hiddenCount: 1, maxNum: 10, points: 5, desc: "Tháp 3 tầng (1 ô ẩn, số < 10)" },
+            { rows: 3, hiddenCount: 1, maxNum: 15, points: 10, desc: "Tháp 3 tầng (1 ô ẩn, số < 15)" },
+            { rows: 3, hiddenCount: 1, maxNum: 20, points: 15, desc: "Tháp 3 tầng (1 ô ẩn, số < 20)" },
+            { rows: 3, hiddenCount: 2, maxNum: 25, points: 20, desc: "Tháp 3 tầng (2 ô ẩn, số < 25)" },
+            { rows: 3, hiddenCount: 3, maxNum: 30, points: 25, desc: "Tháp 3 tầng (3 ô ẩn, số < 30)" },
+            { rows: 4, hiddenCount: 1, maxNum: 50, points: 30, desc: "Tháp 4 tầng (1 ô ẩn, số < 50)" },
+            { rows: 4, hiddenCount: 2, maxNum: 60, points: 35, desc: "Tháp 4 tầng (2 ô ẩn, số < 60)" },
+            { rows: 4, hiddenCount: 3, maxNum: 80, points: 40, desc: "Tháp 4 tầng (3 ô ẩn, số < 80)" },
+            { rows: 4, hiddenCount: 4, maxNum: 100, points: 45, desc: "Tháp 4 tầng (4 ô ẩn, số < 100)" },
+            { rows: 4, hiddenCount: 5, maxNum: 120, points: 50, desc: "Tháp 4 tầng (5 ô ẩn, số < 120)" },
+            { rows: 5, hiddenCount: 2, maxNum: 150, points: 55, desc: "Tháp 5 tầng (2 ô ẩn, số < 150)" },
+            { rows: 5, hiddenCount: 4, maxNum: 200, points: 60, desc: "Tháp 5 tầng (4 ô ẩn, số < 200)" },
+            { rows: 5, hiddenCount: 6, maxNum: 250, points: 65, desc: "Tháp 5 tầng (6 ô ẩn, số < 250)" },
+            { rows: 5, hiddenCount: 8, maxNum: 300, points: 70, desc: "Tháp 5 tầng (8 ô ẩn, số < 300)" },
+            { rows: 5, hiddenCount: 10, maxNum: 400, points: 75, desc: "Tháp 5 tầng (10 ô ẩn, số < 400)" },
+            { rows: 6, hiddenCount: 3, maxNum: 500, points: 80, desc: "Tháp 6 tầng (3 ô ẩn, số < 500)" },
+            { rows: 6, hiddenCount: 6, maxNum: 600, points: 85, desc: "Tháp 6 tầng (6 ô ẩn, số < 600)" },
+            { rows: 6, hiddenCount: 9, maxNum: 800, points: 90, desc: "Tháp 6 tầng (9 ô ẩn, số < 800)" },
+            { rows: 6, hiddenCount: 12, maxNum: 1000, points: 95, desc: "Tháp 6 tầng (12 ô ẩn, số < 1000)" },
+            { rows: 6, hiddenCount: 15, maxNum: 1500, points: 100, desc: "Tháp 6 tầng (Boss, số < 1500)" }
         ]
     };
 
@@ -1199,6 +1199,8 @@ class Game {
         this.currentPyramid = [];
         this.hiddenCells = [];
         this.selectedCell = null;
+        const numpad = document.getElementById('numpad-container');
+        if (numpad) numpad.style.display = 'none';
 
         // 1. Sinh hàng đáy
         let bottomRow = [];
@@ -1276,6 +1278,8 @@ class Game {
 
     static selectPyramidCell(r, c) {
         this.selectedCell = {r, c};
+        const numpad = document.getElementById('numpad-container');
+        if (numpad) numpad.style.display = 'block';
         this.renderPyramid();
         
         // Reset state classes on click
@@ -1310,6 +1314,8 @@ class Game {
 
     static numpadConfirm() {
         this.selectedCell = null;
+        const numpad = document.getElementById('numpad-container');
+        if (numpad) numpad.style.display = 'none';
         this.renderPyramid();
     }
 
