@@ -88,6 +88,12 @@
                 <div class="subject-title">Phép Nhân</div>
                 <div class="subject-desc">Bảng cửu chương siêu tốc</div>
             </div>
+
+            <div class="subject-card" onclick="Game.selectSubject('logic', event)">
+                <div class="subject-icon">🧠</div>
+                <div class="subject-title">Toán Tư Duy</div>
+                <div class="subject-desc">Tháp Số Tổ Ong</div>
+            </div>
         </div>
     </div>
 
@@ -159,8 +165,38 @@
                     style="width: 50px; height: 50px; font-size: 24px; background: var(--primary-color); box-shadow: 0 4px 0 var(--secondary-color); flex-shrink: 0;">🔊</button>
                 <div id="text-question" style="font-size: 24px; font-weight: bold; text-align: left;"></div>
             </div>
-            <div id="box-visual" class="visual-box"></div>
-            <div id="box-options" class="options-grid"></div>
+            
+            <!-- Standard Layout (Addition, Subtraction, Multiplication) -->
+            <div id="standard-layout">
+                <div id="box-visual" class="visual-box"></div>
+                <div id="box-options" class="options-grid"></div>
+            </div>
+
+            <!-- Logic Math Layout (Pyramid & Numpad) -->
+            <div id="logic-layout" style="display: none; justify-content: center; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+                <div id="pyramid-container" class="pyramid-container"></div>
+                <div id="numpad-container" class="numpad-container">
+                    <div class="numpad-grid">
+                        <button class="numpad-btn" onclick="Game.numpadInput('1')">1</button>
+                        <button class="numpad-btn" onclick="Game.numpadInput('2')">2</button>
+                        <button class="numpad-btn" onclick="Game.numpadInput('3')">3</button>
+                        <button class="numpad-btn" onclick="Game.numpadInput('4')">4</button>
+                        <button class="numpad-btn" onclick="Game.numpadInput('5')">5</button>
+                        <button class="numpad-btn" onclick="Game.numpadInput('6')">6</button>
+                        <button class="numpad-btn" onclick="Game.numpadInput('7')">7</button>
+                        <button class="numpad-btn" onclick="Game.numpadInput('8')">8</button>
+                        <button class="numpad-btn" onclick="Game.numpadInput('9')">9</button>
+                        <button class="numpad-btn btn-del" onclick="Game.numpadInput('del')">⌫</button>
+                        <button class="numpad-btn" onclick="Game.numpadInput('0')">0</button>
+                        <button class="numpad-btn btn-confirm" onclick="Game.numpadConfirm()">✅</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                <button id="btn-finish-pyramid" class="btn-ui btn-finish" style="display: none;" onclick="Game.checkPyramid()">Hoàn thành</button>
+            </div>
+
             <div id="text-feedback" style="font-size: 22px; font-weight: bold; margin-top: 20px; min-height: 30px;">
             </div>
         </div>

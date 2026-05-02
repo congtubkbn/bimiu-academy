@@ -640,7 +640,8 @@ class Game {
     static SUBJECT_NAMES = {
         'addition': '➕ Phép Cộng',
         'subtraction': '➖ Phép Trừ',
-        'multiplication': '✖️ Phép Nhân'
+        'multiplication': '✖️ Phép Nhân',
+        'logic': '🧠 Toán Tư Duy'
     };
 
     static ADDITION_CONFIG = {
@@ -800,6 +801,32 @@ class Game {
         ]
     };
 
+    static LOGIC_CONFIG = {
+        totalLevels: 20,
+        levels: [
+            { rows: 3, hiddenCount: 1, maxNum: 10, points: 100, desc: "Tháp 3 tầng (1 ô ẩn, số < 10)" },
+            { rows: 3, hiddenCount: 1, maxNum: 15, points: 105, desc: "Tháp 3 tầng (1 ô ẩn, số < 15)" },
+            { rows: 3, hiddenCount: 1, maxNum: 20, points: 110, desc: "Tháp 3 tầng (1 ô ẩn, số < 20)" },
+            { rows: 3, hiddenCount: 2, maxNum: 25, points: 115, desc: "Tháp 3 tầng (2 ô ẩn, số < 25)" },
+            { rows: 3, hiddenCount: 3, maxNum: 30, points: 120, desc: "Tháp 3 tầng (3 ô ẩn, số < 30)" },
+            { rows: 4, hiddenCount: 1, maxNum: 50, points: 125, desc: "Tháp 4 tầng (1 ô ẩn, số < 50)" },
+            { rows: 4, hiddenCount: 2, maxNum: 60, points: 130, desc: "Tháp 4 tầng (2 ô ẩn, số < 60)" },
+            { rows: 4, hiddenCount: 3, maxNum: 80, points: 135, desc: "Tháp 4 tầng (3 ô ẩn, số < 80)" },
+            { rows: 4, hiddenCount: 4, maxNum: 100, points: 140, desc: "Tháp 4 tầng (4 ô ẩn, số < 100)" },
+            { rows: 4, hiddenCount: 5, maxNum: 120, points: 145, desc: "Tháp 4 tầng (5 ô ẩn, số < 120)" },
+            { rows: 5, hiddenCount: 2, maxNum: 150, points: 150, desc: "Tháp 5 tầng (2 ô ẩn, số < 150)" },
+            { rows: 5, hiddenCount: 4, maxNum: 200, points: 155, desc: "Tháp 5 tầng (4 ô ẩn, số < 200)" },
+            { rows: 5, hiddenCount: 6, maxNum: 250, points: 160, desc: "Tháp 5 tầng (6 ô ẩn, số < 250)" },
+            { rows: 5, hiddenCount: 8, maxNum: 300, points: 165, desc: "Tháp 5 tầng (8 ô ẩn, số < 300)" },
+            { rows: 5, hiddenCount: 10, maxNum: 400, points: 170, desc: "Tháp 5 tầng (10 ô ẩn, số < 400)" },
+            { rows: 6, hiddenCount: 3, maxNum: 500, points: 175, desc: "Tháp 6 tầng (3 ô ẩn, số < 500)" },
+            { rows: 6, hiddenCount: 6, maxNum: 600, points: 180, desc: "Tháp 6 tầng (6 ô ẩn, số < 600)" },
+            { rows: 6, hiddenCount: 9, maxNum: 800, points: 185, desc: "Tháp 6 tầng (9 ô ẩn, số < 800)" },
+            { rows: 6, hiddenCount: 12, maxNum: 1000, points: 190, desc: "Tháp 6 tầng (12 ô ẩn, số < 1000)" },
+            { rows: 6, hiddenCount: 15, maxNum: 1500, points: 200, desc: "Tháp 6 tầng (Boss, số < 1500)" }
+        ]
+    };
+
     static init() {
         if (!AppState.selectedSubject) AppState.selectedSubject = 'addition';
         this.updateLevelDropdown();
@@ -812,7 +839,7 @@ class Game {
         if (!playZone) return;
 
         // Xóa các class theme cũ
-        playZone.classList.remove('theme-jungle', 'theme-ocean', 'theme-universe');
+        playZone.classList.remove('theme-jungle', 'theme-ocean', 'theme-universe', 'theme-logic');
 
         // Áp dụng theme mới dựa trên môn học
         if (AppState.selectedSubject === 'addition') {
@@ -821,12 +848,15 @@ class Game {
             playZone.classList.add('theme-ocean');
         } else if (AppState.selectedSubject === 'multiplication') {
             playZone.classList.add('theme-universe');
+        } else if (AppState.selectedSubject === 'logic') {
+            playZone.classList.add('theme-logic');
         }
     }
 
     static getConfig() {
         if (AppState.selectedSubject === 'multiplication') return this.MULTIPLICATION_CONFIG;
         if (AppState.selectedSubject === 'subtraction') return this.SUBTRACTION_CONFIG;
+        if (AppState.selectedSubject === 'logic') return this.LOGIC_CONFIG;
         return this.ADDITION_CONFIG;
     }
 
@@ -1073,6 +1103,21 @@ class Game {
         const levelConfig = config.levels[AppState.currentLevel];
         this.currentPoints = levelConfig.points;
 
+        // Xử lý riêng cho môn Toán Tư Duy (Logic)
+        if (AppState.selectedSubject === 'logic') {
+            document.getElementById('standard-layout').style.display = 'none';
+            document.getElementById('logic-layout').style.display = 'flex';
+            document.getElementById('text-question').innerText = "Điền số thích hợp vào các ô trống trong tháp:";
+            this.generatePyramid(levelConfig);
+            this.updateGameInfo();
+            return;
+        }
+
+        // Trở về giao diện cơ bản cho các môn khác
+        document.getElementById('standard-layout').style.display = 'block';
+        document.getElementById('logic-layout').style.display = 'none';
+        document.getElementById('btn-finish-pyramid').style.display = 'none';
+
         let mathExpression = "";
         let attempts = 0; // Tránh treo trình duyệt nếu level đó chỉ có 1 câu hỏi duy nhất
 
@@ -1137,6 +1182,238 @@ class Game {
             `;
 
         this.renderOptions(this.currentAnswer);
+    }
+
+        this.renderOptions(this.currentAnswer);
+    }
+
+    static currentPyramid = [];
+    static hiddenCells = [];
+    static selectedCell = null;
+    static hasFirstSubmit = false; // Theo dõi việc gửi kết quả lần đầu (để tính streak)
+
+    static generatePyramid(config) {
+        this.hasFirstSubmit = false;
+        const rows = config.rows;
+        this.currentPyramid = [];
+        this.hiddenCells = [];
+        this.selectedCell = null;
+
+        // 1. Sinh hàng đáy
+        let bottomRow = [];
+        for (let i = 0; i < rows; i++) {
+            // maxNum là giới hạn tổng thể của level, ta nên chia ra cho các đáy nhỏ hơn
+            const maxBottom = Math.max(1, Math.floor(config.maxNum / Math.pow(2, rows - 1)));
+            bottomRow.push(Math.floor(Math.random() * maxBottom) + 1);
+        }
+
+        // 2. Tính toàn bộ tháp từ dưới lên
+        let currentLevel = bottomRow;
+        this.currentPyramid.push([...currentLevel]);
+
+        for (let r = 1; r < rows; r++) {
+            let nextLevel = [];
+            for (let i = 0; i < currentLevel.length - 1; i++) {
+                nextLevel.push(currentLevel[i] + currentLevel[i+1]);
+            }
+            this.currentPyramid.push([...nextLevel]);
+            currentLevel = nextLevel;
+        }
+
+        // Đảo ngược lại để mảng có đỉnh ở index 0, đáy ở cuối
+        this.currentPyramid.reverse();
+
+        // 3. Chọn ngẫu nhiên các ô ẩn
+        let allPositions = [];
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < this.currentPyramid[r].length; c++) {
+                allPositions.push({r, c});
+            }
+        }
+        
+        allPositions.sort(() => Math.random() - 0.5);
+        for (let i = 0; i < config.hiddenCount && i < allPositions.length; i++) {
+            const pos = allPositions[i];
+            this.hiddenCells.push({
+                r: pos.r, 
+                c: pos.c, 
+                correctValue: this.currentPyramid[pos.r][pos.c],
+                currentValue: null
+            });
+        }
+
+        this.renderPyramid();
+    }
+
+    static renderPyramid() {
+        const container = document.getElementById('pyramid-container');
+        let html = '';
+
+        for (let r = 0; r < this.currentPyramid.length; r++) {
+            html += '<div class="pyramid-row">';
+            for (let c = 0; c < this.currentPyramid[r].length; c++) {
+                const hiddenData = this.hiddenCells.find(h => h.r === r && h.c === c);
+                
+                if (hiddenData) {
+                    const isSelected = this.selectedCell && this.selectedCell.r === r && this.selectedCell.c === c;
+                    const classList = ['pyramid-cell', 'empty-cell'];
+                    if (isSelected) classList.push('cell-selected');
+                    if (hiddenData.currentValue !== null) classList.push('cell-filled');
+
+                    const displayValue = hiddenData.currentValue !== null ? hiddenData.currentValue : '';
+                    
+                    html += `<div class="${classList.join(' ')}" id="cell-${r}-${c}" onclick="Game.selectPyramidCell(${r}, ${c})">${displayValue}</div>`;
+                } else {
+                    html += `<div class="pyramid-cell">${this.currentPyramid[r][c]}</div>`;
+                }
+            }
+            html += '</div>';
+        }
+        container.innerHTML = html;
+        this.checkPyramidCompletion();
+    }
+
+    static selectPyramidCell(r, c) {
+        this.selectedCell = {r, c};
+        this.renderPyramid();
+        
+        // Reset state classes on click
+        const cellEl = document.getElementById(`cell-${r}-${c}`);
+        if(cellEl) cellEl.classList.remove('cell-wrong');
+    }
+
+    static numpadInput(val) {
+        if (!this.selectedCell) return;
+        
+        const hiddenData = this.hiddenCells.find(h => h.r === this.selectedCell.r && h.c === this.selectedCell.c);
+        if (!hiddenData) return;
+
+        if (val === 'del') {
+            if (hiddenData.currentValue !== null) {
+                let strVal = hiddenData.currentValue.toString();
+                if (strVal.length > 1) {
+                    hiddenData.currentValue = parseInt(strVal.slice(0, -1));
+                } else {
+                    hiddenData.currentValue = null;
+                }
+            }
+        } else {
+            let currentStr = hiddenData.currentValue !== null ? hiddenData.currentValue.toString() : "";
+            // Giới hạn độ dài nhập (max 5 chữ số)
+            if (currentStr.length < 5) {
+                hiddenData.currentValue = parseInt(currentStr + val);
+            }
+        }
+        this.renderPyramid();
+    }
+
+    static numpadConfirm() {
+        this.selectedCell = null;
+        this.renderPyramid();
+    }
+
+    static checkPyramidCompletion() {
+        // Kiểm tra xem tất cả các ô đã được điền chưa
+        const isComplete = this.hiddenCells.every(h => h.currentValue !== null);
+        const btnFinish = document.getElementById('btn-finish-pyramid');
+        if (isComplete) {
+            btnFinish.style.display = 'inline-block';
+        } else {
+            btnFinish.style.display = 'none';
+        }
+    }
+
+    static async checkPyramid() {
+        const player = Player.data.find(p => p.id === AppState.selectedPlayerId);
+        if (!player) return;
+
+        let allCorrect = true;
+        this.hiddenCells.forEach(h => {
+            if (h.currentValue !== h.correctValue) {
+                allCorrect = false;
+                const cellEl = document.getElementById(`cell-${h.r}-${h.c}`);
+                if (cellEl) cellEl.classList.add('cell-wrong');
+            }
+        });
+
+        const isFirstSubmit = !this.hasFirstSubmit;
+        this.hasFirstSubmit = true;
+        
+        const feedbackElement = document.getElementById('text-feedback');
+        
+        TrackingService.logQuiz("Tháp số tổ ong", "...", "...", allCorrect);
+        
+        // Lưu Rank cũ trước khi cộng điểm
+        const oldRankName = Player.getPlayerRank(player.score).current.name;
+        const prevLevel = AppState.currentLevel;
+
+        if (allCorrect) {
+            this.changeOwlMood('happy');
+            
+            // Chỉ tăng chuỗi đúng nếu trả lời đúng ngay lần gửi đầu tiên
+            if (isFirstSubmit) {
+                this.consecutiveCorrectCount++;
+            }
+            
+            if (this.consecutiveCorrectCount > 0 && this.consecutiveCorrectCount % 5 === 0) {
+                this.triggerConfetti();
+                SoundService.playFireworkSound();
+            } else {
+                SoundService.playTrueSound();
+            }
+            
+            player.score += this.currentPoints;
+            let streakText = this.consecutiveCorrectCount >= 2 ? ` (🔥 Đang đúng ${this.consecutiveCorrectCount} câu liên tiếp!)` : '';
+            feedbackElement.innerHTML = `<span style="color:var(--success-color)">🌟 Xuất sắc, ${player.name} ơi! Đúng rồi (+${this.currentPoints} điểm)! <br><span style="font-size: 16px; color: #d35400;">${streakText}</span></span>`;
+
+            // Ẩn bàn phím và nút hoàn thành
+            document.getElementById('numpad-container').style.display = 'none';
+            document.getElementById('btn-finish-pyramid').style.display = 'none';
+            
+            this.selectedCell = null;
+            this.hiddenCells.forEach(h => {
+                const cellEl = document.getElementById(`cell-${h.r}-${h.c}`);
+                if (cellEl) cellEl.classList.remove('empty-cell', 'cell-selected');
+            });
+
+            if (AppState.isAdventureMode && isFirstSubmit) {
+                AppState.correctStreak++;
+                AppState.incorrectStreak = 0;
+                if (AppState.correctStreak >= 3) {
+                    const config = this.getConfig();
+                    if (AppState.currentLevel < config.levels.length - 1) {
+                        AppState.currentLevel++;
+                        AppState.correctStreak = 0;
+                        this.showToast("🚀 TUYỆT VỜI! Bạn đã thăng lên Cấp " + (AppState.currentLevel + 1), "success");
+                    }
+                }
+            }
+
+            feedbackElement.innerHTML += `
+            <div class="floating-next-container">
+                <button class="btn-next floating-btn" onclick="Game.newQuestion()">Đi tiếp nào! 🚀</button>
+            </div>
+            `;
+            
+            this.updateTrack(true, AppState.currentLevel > prevLevel);
+            
+            // Cập nhật điểm lên UI
+            this.updateScoreUI();
+            
+            const newRank = Player.getPlayerRank(player.score).current;
+            if (newRank.name !== oldRankName) {
+                this.showRankUpCelebration(newRank);
+            }
+
+            await CloudService.syncPlayer(player);
+        } else {
+            this.changeOwlMood('sad');
+            SoundService.playFalseSound();
+            feedbackElement.innerHTML = `<span style="color:var(--error-color)">❌ Có ô chưa chính xác rồi ${player.name} ơi! Sửa lại những ô màu đỏ nhé!</span>`;
+            
+            // Sai thì không reset streak hay lùi level theo yêu cầu mới, cũng không trừ điểm
+            this.updateTrack(false, false);
+        }
     }
 
     static renderOptions(correctAnswer) {
