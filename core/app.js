@@ -877,9 +877,20 @@ class Game {
             if (target) target.classList.add('selected');
         }
 
-        document.getElementById('selected-player-name').textContent = Player.data.find(p => p.id === AppState.selectedPlayerId)?.name || '';
-        document.getElementById('selected-subject-name').textContent = this.SUBJECT_NAMES[subjectId];
-        document.getElementById('subject-summary').style.display = 'flex';
+        const selPlayerNameEl = document.getElementById('selected-player-name');
+        if (selPlayerNameEl) {
+            selPlayerNameEl.textContent = Player.data.find(p => p.id === AppState.selectedPlayerId)?.name || '';
+        }
+
+        const selSubjectNameEl = document.getElementById('selected-subject-name');
+        if (selSubjectNameEl) {
+            selSubjectNameEl.textContent = this.SUBJECT_NAMES[subjectId];
+        }
+
+        const subjSummaryEl = document.getElementById('subject-summary');
+        if (subjSummaryEl) {
+            subjSummaryEl.style.display = 'flex';
+        }
 
         this.applyTheme();
         this.updateLevelDropdown();
