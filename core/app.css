@@ -1010,3 +1010,95 @@
             0% { transform: translate(-50%, 150%); opacity: 0; }
             100% { transform: translate(-50%, 0); opacity: 1; }
         }
+
+/* ===== RUNNING TRACK ===== */
+.running-track {
+    position: relative;
+    height: 62px;
+    margin: 8px 0;
+    background: linear-gradient(to bottom, #e8f5e9 70%, #c8e6c9);
+    border-radius: 16px;
+    border: 2px solid #a5d6a7;
+    overflow: hidden;
+}
+
+.track-road {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    height: 3px;
+    background: repeating-linear-gradient(
+        to right,
+        #81c784 0, #81c784 12px,
+        transparent 12px, transparent 22px
+    );
+    border-radius: 2px;
+}
+
+.track-character {
+    position: absolute;
+    bottom: 11px;
+    left: 5%;
+    font-size: 30px;
+    line-height: 1;
+    z-index: 2;
+    transition: left 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: bottom center;
+}
+
+.track-fire {
+    position: absolute;
+    bottom: 13px;
+    left: 0%;
+    font-size: 18px;
+    opacity: 0;
+    z-index: 1;
+    transition: left 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease;
+}
+
+.track-fire.active { opacity: 1; }
+
+.track-finish {
+    position: absolute;
+    right: 6px;
+    bottom: 8px;
+    font-size: 26px;
+}
+
+.track-character.running {
+    animation: track-run 0.42s ease-in-out infinite;
+}
+
+.track-character.running-fast {
+    animation: track-run 0.22s ease-in-out infinite;
+}
+
+.track-character.stumble {
+    animation: track-stumble 0.65s ease-in-out forwards !important;
+}
+
+.track-character.level-complete {
+    animation: track-celebrate 0.9s ease-in-out forwards !important;
+}
+
+@keyframes track-run {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-5px); }
+}
+
+@keyframes track-stumble {
+    0%   { transform: rotate(0deg)   translateY(0);    }
+    20%  { transform: rotate(-25deg) translateY(0);    }
+    45%  { transform: rotate(85deg)  translateY(10px); }
+    65%  { transform: rotate(85deg)  translateY(10px); }
+    85%  { transform: rotate(15deg)  translateY(2px);  }
+    100% { transform: rotate(0deg)   translateY(0);    }
+}
+
+@keyframes track-celebrate {
+    0%   { transform: translateY(0)    scale(1)    rotate(0deg);   }
+    30%  { transform: translateY(-22px) scale(1.35) rotate(20deg); }
+    60%  { transform: translateY(-16px) scale(1.2)  rotate(-10deg);}
+    100% { transform: translateY(0)    scale(1)    rotate(0deg);   }
+}
