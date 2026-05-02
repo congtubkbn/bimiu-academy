@@ -526,6 +526,77 @@ class Game {
     static lastMathExpression = "";
 
     static consecutiveCorrectCount = 0; // Biến lưu chuỗi đúng liên tiếp
+    static trackPosition = 5; // % từ cạnh trái của đường đua
+
+    static initTrack() {
+        const player = Player.data.find(p => p.id === AppState.selectedPlayerId);
+        const charEl = document.getElementById('track-character');
+        if (charEl && player) charEl.textContent = player.icon;
+        this.resetTrack();
+    }
+
+    static resetTrack() {
+        this.trackPosition = 5;
+        const charEl = document.getElementById('track-character');
+        const fireEl = document.getElementById('track-fire');
+        if (charEl) {
+            charEl.style.left = '5%';
+            charEl.classList.remove('stumble', 'level-complete', 'running-fast');
+            charEl.classList.add('running');
+        }
+        if (fireEl) fireEl.classList.remove('active');
+    }
+
+    static updateTrack(isCorrect, leveledUp) {
+        const charEl = document.getElementById('track-character');
+        const fireEl = document.getElementById('track-fire');
+        if (!charEl) return;
+
+        if (isCorrect) {
+            if (leveledUp) {
+                this.trackPosition = 90;
+                charEl.style.left = '90%';
+                charEl.classList.remove('stumble', 'running', 'running-fast');
+                charEl.classList.add('level-complete');
+                if (fireEl) fireEl.classList.remove('active');
+                setTimeout(() => {
+                    charEl.classList.remove('level-complete');
+                    this.resetTrack();
+                }, 1000);
+                return;
+            }
+
+            if (AppState.isAdventureMode) {
+                this.trackPosition = 5 + (AppState.correctStreak / 3) * 78;
+            } else {
+                this.trackPosition = 5 + ((this.consecutiveCorrectCount % 10) / 10) * 78;
+            }
+
+            const onFire = this.consecutiveCorrectCount >= 3;
+            charEl.classList.remove('stumble');
+            charEl.classList.toggle('running-fast', onFire);
+            charEl.classList.toggle('running', !onFire);
+            if (fireEl) {
+                fireEl.style.left = (this.trackPosition - 8) + '%';
+                fireEl.classList.toggle('active', onFire);
+            }
+        } else {
+            const step = AppState.isAdventureMode ? (78 / 3) : (78 / 10);
+            this.trackPosition = Math.max(5, this.trackPosition - step * 0.5);
+            charEl.classList.add('stumble');
+            charEl.classList.remove('running', 'running-fast');
+            if (fireEl) fireEl.classList.remove('active');
+            setTimeout(() => {
+                charEl.classList.remove('stumble');
+                charEl.classList.add('running');
+            }, 700);
+        }
+
+        charEl.style.left = this.trackPosition + '%';
+        if (fireEl && isCorrect && this.consecutiveCorrectCount >= 3) {
+            fireEl.style.left = (this.trackPosition - 8) + '%';
+        }
+    }
 
     static changeOwlMood(mood) {
         const owl = document.getElementById('main-owl');
@@ -1102,6 +1173,7 @@ class Game {
 
         // Lưu Rank cũ trước khi cộng điểm
         const oldRankName = Player.getPlayerRank(player.score).current.name;
+        const prevLevel = AppState.currentLevel;
 
         if (selectedValue === this.currentAnswer) {
 
@@ -1177,6 +1249,7 @@ class Game {
 
         // Cập nhật điểm lên UI
         this.updateScoreUI();
+        this.updateTrack(isCorrect, AppState.currentLevel > prevLevel);
 
         // Kiểm tra xem có được thăng cấp không
         if (isCorrect) {
@@ -1317,6 +1390,7 @@ class App {
         }
 
         if (tabId === 'game') {
+            Game.initTrack();
             Game.newQuestion();
             SoundService.startBGM(); // 🔊 Bật nhạc nền khi vào bàn chơi
         } else {
