@@ -515,6 +515,10 @@ class Player {
         const settingsPlayerEl = document.getElementById('settings-player');
         if (settingsPlayerEl) settingsPlayerEl.textContent = playerName;
 
+        // Cập nhật điểm và thông tin ngay trên game
+        if (typeof Game.updateScoreUI === 'function') Game.updateScoreUI();
+        if (typeof Game.updateGameInfo === 'function') Game.updateGameInfo();
+
         // Cập nhật thanh điều hướng nổi
         App.updateFloatingNav();
     }
@@ -1701,18 +1705,16 @@ class App {
         }
     }
     static async syncAndRefreshPlayers() {
-        await CloudService.syncQueue();
+        if (typeof CloudService.processQueue === 'function') {
+            await CloudService.processQueue();
+        }
         await Player.init();
-        const remoteData = await CloudService.fetchAll();
-        if (remoteData && remoteData.length > 0) {
-            Player.data = remoteData;
-            Player.renderList();
-            Game.updateScoreUI();
-            // BẢN VÁ: Kiểm tra xem user có đang ở tab Thành Tích không, nếu có thì vẽ lại dữ liệu mới
-            const achievementsTab = document.getElementById('view-achievements');
-            if (achievementsTab && achievementsTab.classList.contains('active')) {
-                Achievement.render();
-            }
+        Game.updateScoreUI();
+        
+        // BẢN VÁ: Kiểm tra xem user có đang ở tab Thành Tích không, nếu có thì vẽ lại dữ liệu mới
+        const achievementsTab = document.getElementById('view-achievements');
+        if (achievementsTab && achievementsTab.classList.contains('active')) {
+            Achievement.render();
         }
     }
 
