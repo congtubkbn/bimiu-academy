@@ -737,6 +737,31 @@
             50% { transform: translateY(-15px); }
         }
 
+        /* 4. Theme Mặt Trời (Phép Chia) */
+        .theme-division {
+            background: linear-gradient(180deg, #fff8e1 0%, #ffecb3 100%) !important;
+            border-color: #f57f17 !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-division::before {
+            content: "🍊 🌻 🍋 🌼 🍑";
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            font-size: 20px;
+            opacity: 0.2;
+            letter-spacing: 20px;
+            pointer-events: none;
+            animation: division-spin 8s linear infinite;
+        }
+        @keyframes division-spin {
+            0% { transform: rotate(0deg) translateX(0); }
+            50% { transform: rotate(5deg) translateX(5px); }
+            100% { transform: rotate(0deg) translateX(0); }
+        }
+
         /* --- CHẾ ĐỘ THÁM HIỂM (ADVENTURE MODE) --- */
         .mode-selection {
             display: grid;
