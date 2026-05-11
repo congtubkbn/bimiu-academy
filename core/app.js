@@ -645,6 +645,7 @@ class Game {
         'addition': '➕ Phép Cộng',
         'subtraction': '➖ Phép Trừ',
         'multiplication': '✖️ Phép Nhân',
+        'division': '➗ Phép Chia',
         'logic': '🧠 Toán Tư Duy'
     };
 
@@ -831,6 +832,53 @@ class Game {
         ]
     };
 
+    static DIVISION_CONFIG = {
+        totalLevels: 30,
+        levels: [
+            // Giai đoạn 1: Làm quen - Chia cho 1 và 2 (Điểm 1 - 5)
+            { divisors: [1], minQ: 1, maxQ: 5, points: 1, desc: "Làm quen: Chia cho 1 (Trong 5)" },
+            { divisors: [1], minQ: 1, maxQ: 10, points: 2, desc: "Chia cho 1 (Trong 10)" },
+            { divisors: [2], minQ: 1, maxQ: 5, points: 3, desc: "Bảng chia 2 (Từ 1 đến 5)" },
+            { divisors: [2], minQ: 6, maxQ: 10, points: 4, desc: "Bảng chia 2 (Từ 6 đến 10)" },
+            { divisors: [2], minQ: 1, maxQ: 10, points: 5, desc: "Ôn tập chia 2" },
+
+            // Giai đoạn 2: Chia cho 5 (Điểm 6 - 8)
+            { divisors: [5], minQ: 1, maxQ: 5, points: 6, desc: "Bảng chia 5 (Từ 1 đến 5)" },
+            { divisors: [5], minQ: 6, maxQ: 10, points: 7, desc: "Bảng chia 5 (Từ 6 đến 10)" },
+            { divisors: [2, 5], minQ: 1, maxQ: 10, points: 8, desc: "Luyện tập chia 2 và 5" },
+
+            // Giai đoạn 3: Chia cho 3 (Điểm 9 - 11)
+            { divisors: [3], minQ: 1, maxQ: 5, points: 9, desc: "Bảng chia 3 (Từ 1 đến 5)" },
+            { divisors: [3], minQ: 6, maxQ: 10, points: 10, desc: "Bảng chia 3 (Từ 6 đến 10)" },
+            { divisors: [2, 3, 5], minQ: 1, maxQ: 10, points: 11, desc: "Kiểm tra chia 2, 3, 5" },
+
+            // Giai đoạn 4: Chia cho 4 (Điểm 12 - 15)
+            { divisors: [4], minQ: 1, maxQ: 5, points: 12, desc: "Bảng chia 4 (Từ 1 đến 5)" },
+            { divisors: [4], minQ: 6, maxQ: 10, points: 13, desc: "Bảng chia 4 (Từ 6 đến 10)" },
+            { divisors: [2, 3, 4, 5], minQ: 1, maxQ: 5, points: 14, desc: "Tứ Đại Bảng Chia (Số nhỏ)" },
+            { divisors: [2, 3, 4, 5], minQ: 1, maxQ: 10, points: 15, desc: "Tứ Đại Bảng Chia (Tổng hợp) 🎓" },
+
+            // Giai đoạn 5: Chia cho 6, 7, 8, 9 (Điểm 16 - 25)
+            { divisors: [6], minQ: 1, maxQ: 5, points: 16, desc: "Bảng chia 6 (Từ 1 đến 5)" },
+            { divisors: [6], minQ: 6, maxQ: 10, points: 17, desc: "Bảng chia 6 (Từ 6 đến 10)" },
+            { divisors: [7], minQ: 1, maxQ: 5, points: 18, desc: "Bảng chia 7 (Từ 1 đến 5)" },
+            { divisors: [7], minQ: 6, maxQ: 10, points: 19, desc: "Bảng chia 7 (Từ 6 đến 10)" },
+            { divisors: [8], minQ: 1, maxQ: 5, points: 20, desc: "Bảng chia 8 (Từ 1 đến 5)" },
+            { divisors: [8], minQ: 6, maxQ: 10, points: 21, desc: "Bảng chia 8 (Từ 6 đến 10)" },
+            { divisors: [9], minQ: 1, maxQ: 5, points: 22, desc: "Bảng chia 9 (Từ 1 đến 5)" },
+            { divisors: [9], minQ: 6, maxQ: 10, points: 23, desc: "Bảng chia 9 (Từ 6 đến 10)" },
+            { divisors: [6, 7, 8, 9], minQ: 1, maxQ: 5, points: 24, desc: "Tứ Đại Thiên Vương (Số nhỏ)" },
+            { divisors: [6, 7, 8, 9], minQ: 1, maxQ: 10, points: 25, desc: "Tứ Đại Thiên Vương (Tổng hợp)" },
+
+            // Giai đoạn 6: Siêu cấp - Tổng hợp tất cả (Điểm 26 - 30)
+            { divisors: [2, 3, 4, 5, 6, 7, 8, 9], minQ: 1, maxQ: 8, points: 26, desc: "Đại Tổng Hợp (Trong 8)" },
+            { divisors: [2, 3, 4, 5, 6, 7, 8, 9], minQ: 1, maxQ: 10, points: 27, desc: "Đại Tổng Hợp (Trong 10)" },
+            { divisors: [2, 3, 4, 5, 6, 7, 8, 9, 10], minQ: 1, maxQ: 10, points: 28, desc: "Bậc Thầy Phép Chia 🎓" },
+            { divisors: [2, 3, 4, 5, 6, 7, 8, 9, 10], minQ: 1, maxQ: 12, points: 29, desc: "Thử Thách Siêu Cấp" },
+            { divisors: [2, 3, 4, 5, 6, 7, 8, 9, 10], minQ: 1, maxQ: 15, points: 30, desc: "Nhà Toán Học Nhí 🏆" }
+        ]
+    };
+
     static init() {
         if (!AppState.selectedSubject) AppState.selectedSubject = 'addition';
         this.updateLevelDropdown();
@@ -843,7 +891,7 @@ class Game {
         if (!playZone) return;
 
         // Xóa các class theme cũ
-        playZone.classList.remove('theme-jungle', 'theme-ocean', 'theme-universe', 'theme-logic');
+        playZone.classList.remove('theme-jungle', 'theme-ocean', 'theme-universe', 'theme-division', 'theme-logic');
 
         // Áp dụng theme mới dựa trên môn học
         if (AppState.selectedSubject === 'addition') {
@@ -852,6 +900,8 @@ class Game {
             playZone.classList.add('theme-ocean');
         } else if (AppState.selectedSubject === 'multiplication') {
             playZone.classList.add('theme-universe');
+        } else if (AppState.selectedSubject === 'division') {
+            playZone.classList.add('theme-division');
         } else if (AppState.selectedSubject === 'logic') {
             playZone.classList.add('theme-logic');
         }
@@ -860,6 +910,7 @@ class Game {
     static getConfig() {
         if (AppState.selectedSubject === 'multiplication') return this.MULTIPLICATION_CONFIG;
         if (AppState.selectedSubject === 'subtraction') return this.SUBTRACTION_CONFIG;
+        if (AppState.selectedSubject === 'division') return this.DIVISION_CONFIG;
         if (AppState.selectedSubject === 'logic') return this.LOGIC_CONFIG;
         return this.ADDITION_CONFIG;
     }
@@ -1118,6 +1169,19 @@ class Game {
         return stories[Math.floor(Math.random() * stories.length)];
     }
 
+    static getDivisionStoryQuestion(dividend, divisor) {
+        const stories = [
+            `Bi có ${dividend} viên kẹo sô-cô-la, muốn chia đều cho ${divisor} bạn. Hỏi mỗi bạn được bao nhiêu viên kẹo?`,
+            `Mẹ mua ${dividend} cái bánh quy thơm ngon và xếp đều vào ${divisor} hộp. Hỏi mỗi hộp có bao nhiêu cái bánh?`,
+            `Cô giáo có ${dividend} ngôi sao vàng lấp lánh, muốn tặng đều cho ${divisor} bạn học giỏi nhất. Mỗi bạn được bao nhiêu ngôi sao?`,
+            `Đàn vịt có ${dividend} con được dẫn vào chuồng, mỗi chuồng nhốt đúng ${divisor} con. Hỏi có bao nhiêu chuồng vịt?`,
+            `Bé xếp ${dividend} khối Lego màu sắc vào ${divisor} hộp bằng nhau. Mỗi hộp có bao nhiêu khối Lego?`,
+            `Nhà vườn thu hoạch được ${dividend} quả táo đỏ mọng, đóng đều vào các giỏ, mỗi giỏ ${divisor} quả. Hỏi đóng được bao nhiêu giỏ?`,
+            `Đội bóng có ${dividend} cầu thủ được chia đều thành ${divisor} nhóm tập luyện. Mỗi nhóm có bao nhiêu cầu thủ?`
+        ];
+        return stories[Math.floor(Math.random() * stories.length)];
+    }
+
     static newQuestion() {
         this.changeOwlMood('normal'); // Reset cú mèo về trạng thái bình thường khi sang câu mới
         TrackingService.startQuizTimer();
@@ -1158,6 +1222,15 @@ class Game {
 
                 document.getElementById('text-question').innerText = this.getMultiplicationStoryQuestion(num1, num2);
                 mathExpression = `${num1} <span style="color: #e74c3c;">✖️</span> ${num2}`;
+            } else if (AppState.selectedSubject === 'division') {
+                const divisor = levelConfig.divisors[Math.floor(Math.random() * levelConfig.divisors.length)];
+                const quotient = Math.floor(Math.random() * (levelConfig.maxQ - levelConfig.minQ + 1)) + levelConfig.minQ;
+                const dividend = divisor * quotient;
+
+                this.currentAnswer = quotient;
+
+                document.getElementById('text-question').innerText = this.getDivisionStoryQuestion(dividend, divisor);
+                mathExpression = `${dividend} <span style="color: #e74c3c;">➗</span> ${divisor}`;
             } else if (AppState.selectedSubject === 'subtraction') {
                 const a = Math.floor(Math.random() * (levelConfig.maxA - levelConfig.minA + 1)) + levelConfig.minA;
                 const maxRes = Math.min(levelConfig.maxResult, a);
