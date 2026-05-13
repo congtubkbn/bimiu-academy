@@ -762,6 +762,73 @@
             100% { transform: rotate(0deg) translateX(0); }
         }
 
+        /* 5. Theme Tím Mộng Mơ (Điền Số) */
+        .theme-sequence {
+            background: linear-gradient(180deg, #f3e5f5 0%, #e1bee7 100%) !important;
+            border-color: #7b1fa2 !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-sequence::before {
+            content: "🔢 📊 🌈 ⭐ 🎯";
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            font-size: 20px;
+            opacity: 0.2;
+            letter-spacing: 20px;
+            pointer-events: none;
+            animation: seq-pulse 4s ease-in-out infinite;
+        }
+        @keyframes seq-pulse {
+            0%, 100% { opacity: 0.15; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.05); }
+        }
+
+        /* 6. Theme Hồng Ấm (Đọc Giờ) */
+        .theme-clock {
+            background: linear-gradient(180deg, #fce4ec 0%, #f8bbd0 100%) !important;
+            border-color: #c2185b !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-clock::before {
+            content: "⏰ 🌅 ☀️ 🌙 🌟";
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            font-size: 20px;
+            opacity: 0.2;
+            letter-spacing: 20px;
+            pointer-events: none;
+            animation: clock-tick 2s steps(1, end) infinite;
+        }
+        @keyframes clock-tick {
+            0%, 100% { opacity: 0.15; }
+            50% { opacity: 0.28; }
+        }
+
+        /* 7. Theme Tháp Số (Toán Tư Duy) — fix missing */
+        .theme-logic {
+            background: linear-gradient(180deg, #e0f2f1 0%, #b2dfdb 100%) !important;
+            border-color: #00695c !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-logic::before {
+            content: "🧩 🔷 🔶 🏗️ 🧠";
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            font-size: 20px;
+            opacity: 0.2;
+            letter-spacing: 20px;
+            pointer-events: none;
+        }
+
         /* --- CHẾ ĐỘ THÁM HIỂM (ADVENTURE MODE) --- */
         .mode-selection {
             display: grid;
