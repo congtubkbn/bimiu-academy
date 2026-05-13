@@ -646,6 +646,8 @@ class Game {
         'subtraction': '➖ Phép Trừ',
         'multiplication': '✖️ Phép Nhân',
         'division': '➗ Phép Chia',
+        'sequence': '🔢 Điền Số',
+        'clock': '🕐 Đọc Giờ',
         'logic': '🧠 Toán Tư Duy'
     };
 
@@ -879,6 +881,81 @@ class Game {
         ]
     };
 
+    static SEQUENCE_CONFIG = {
+        totalLevels: 25,
+        levels: [
+            // Giai đoạn 1: Đếm theo 1 (trong 10-20) — Điểm 1-10
+            { minStart: 1,  maxStart: 6,  step: 1, length: 5, points: 1,  desc: "Đếm theo 1 (Trong 10)" },
+            { minStart: 1,  maxStart: 6,  step: 1, length: 5, points: 2,  desc: "Đếm theo 1 (Trong 10)" },
+            { minStart: 3,  maxStart: 8,  step: 1, length: 5, points: 3,  desc: "Đếm theo 1 (Trong 12)" },
+            { minStart: 5,  maxStart: 10, step: 1, length: 5, points: 4,  desc: "Đếm theo 1 (Trong 15)" },
+            { minStart: 1,  maxStart: 15, step: 1, length: 5, points: 5,  desc: "Đếm theo 1 (Trong 20)" },
+            { minStart: 1,  maxStart: 15, step: 1, length: 6, points: 6,  desc: "Đếm theo 1 (Dài hơn)" },
+            { minStart: 5,  maxStart: 20, step: 1, length: 6, points: 7,  desc: "Đếm theo 1 (Trong 25)" },
+            { minStart: 1,  maxStart: 25, step: 1, length: 7, points: 8,  desc: "Đếm theo 1 (Trong 30)" },
+            { minStart: 10, maxStart: 40, step: 1, length: 5, points: 9,  desc: "Đếm theo 1 (Số lớn hơn)" },
+            { minStart: 1,  maxStart: 45, step: 1, length: 5, points: 10, desc: "Đếm theo 1 — Ôn tập 🎓" },
+
+            // Giai đoạn 2: Đếm theo 2 — Điểm 11-15
+            { minStart: 2,  maxStart: 4,  step: 2, length: 5, points: 11, desc: "Đếm theo 2 (Nhỏ)" },
+            { minStart: 2,  maxStart: 10, step: 2, length: 5, points: 12, desc: "Đếm theo 2 (Trong 20)" },
+            { minStart: 2,  maxStart: 14, step: 2, length: 6, points: 13, desc: "Đếm theo 2 (Trong 30)" },
+            { minStart: 2,  maxStart: 20, step: 2, length: 6, points: 14, desc: "Đếm theo 2 (Trong 40)" },
+            { minStart: 2,  maxStart: 40, step: 2, length: 5, points: 15, desc: "Đếm theo 2 — Ôn tập 🎓" },
+
+            // Giai đoạn 3: Đếm theo 5 — Điểm 16-20
+            { minStart: 5,  maxStart: 5,  step: 5, length: 5, points: 16, desc: "Đếm theo 5 (Nhỏ)" },
+            { minStart: 5,  maxStart: 25, step: 5, length: 5, points: 17, desc: "Đếm theo 5 (Trong 50)" },
+            { minStart: 5,  maxStart: 25, step: 5, length: 6, points: 18, desc: "Đếm theo 5 (Dài hơn)" },
+            { minStart: 5,  maxStart: 45, step: 5, length: 5, points: 19, desc: "Đếm theo 5 (Trong 100)" },
+            { minStart: 5,  maxStart: 50, step: 5, length: 5, points: 20, desc: "Đếm theo 5 — Ôn tập 🎓" },
+
+            // Giai đoạn 4: Đếm theo 10 — Điểm 21-25
+            { minStart: 10, maxStart: 10, step: 10, length: 5, points: 21, desc: "Đếm theo 10 (Nhỏ)" },
+            { minStart: 10, maxStart: 50, step: 10, length: 5, points: 22, desc: "Đếm theo 10 (Trong 100)" },
+            { minStart: 10, maxStart: 50, step: 10, length: 6, points: 23, desc: "Đếm theo 10 (Dài hơn)" },
+            { minStart: 10, maxStart: 80, step: 10, length: 5, points: 24, desc: "Đếm theo 10 (Trong 200)" },
+            { minStart: 10, maxStart: 90, step: 10, length: 5, points: 25, desc: "Nhà Toán Học Nhí 🏆" }
+        ]
+    };
+
+    static CLOCK_CONFIG = {
+        totalLevels: 24,
+        levels: [
+            // Giai đoạn 1: Giờ chẵn 1-6 — Điểm 3-6
+            { maxHour: 3,  minutes: [0],           points: 3,  desc: "Giờ chẵn (1-3 giờ)" },
+            { maxHour: 4,  minutes: [0],           points: 4,  desc: "Giờ chẵn (1-4 giờ)" },
+            { maxHour: 5,  minutes: [0],           points: 4,  desc: "Giờ chẵn (1-5 giờ)" },
+            { maxHour: 6,  minutes: [0],           points: 5,  desc: "Giờ chẵn (1-6 giờ)" },
+            { maxHour: 8,  minutes: [0],           points: 5,  desc: "Giờ chẵn (1-8 giờ)" },
+            { maxHour: 10, minutes: [0],           points: 6,  desc: "Giờ chẵn (1-10 giờ)" },
+
+            // Giai đoạn 2: Giờ chẵn 1-12 — Điểm 7-9
+            { maxHour: 12, minutes: [0],           points: 7,  desc: "Giờ chẵn (1-12 giờ)" },
+            { maxHour: 12, minutes: [0],           points: 7,  desc: "Giờ chẵn — Luyện tập" },
+            { maxHour: 12, minutes: [0],           points: 8,  desc: "Giờ chẵn — Thành thạo" },
+            { maxHour: 12, minutes: [0],           points: 8,  desc: "Giờ chẵn — Siêu nhanh" },
+            { maxHour: 12, minutes: [0],           points: 9,  desc: "Giờ chẵn — Thử thách" },
+            { maxHour: 12, minutes: [0],           points: 9,  desc: "Giờ chẵn — Bậc thầy 🎓" },
+
+            // Giai đoạn 3: Giờ rưỡi — Điểm 10-13
+            { maxHour: 6,  minutes: [30],          points: 10, desc: "Giờ rưỡi (1-6 giờ)" },
+            { maxHour: 8,  minutes: [30],          points: 11, desc: "Giờ rưỡi (1-8 giờ)" },
+            { maxHour: 12, minutes: [30],          points: 12, desc: "Giờ rưỡi (1-12 giờ)" },
+            { maxHour: 12, minutes: [0, 30],       points: 12, desc: "Giờ chẵn và rưỡi" },
+            { maxHour: 12, minutes: [0, 30],       points: 13, desc: "Giờ chẵn và rưỡi — Luyện" },
+            { maxHour: 12, minutes: [0, 30],       points: 13, desc: "Giờ chẵn và rưỡi — Bậc thầy 🎓" },
+
+            // Giai đoạn 4: Giờ 15 và 45 phút — Điểm 14-18
+            { maxHour: 6,  minutes: [15],          points: 14, desc: "Giờ 15 phút (1-6 giờ)" },
+            { maxHour: 12, minutes: [15],          points: 15, desc: "Giờ 15 phút (1-12 giờ)" },
+            { maxHour: 12, minutes: [45],          points: 15, desc: "Giờ 45 phút (1-12 giờ)" },
+            { maxHour: 12, minutes: [15, 45],      points: 16, desc: "Giờ 15 và 45 phút" },
+            { maxHour: 12, minutes: [0, 15, 30, 45], points: 17, desc: "Tổng hợp tất cả" },
+            { maxHour: 12, minutes: [0, 15, 30, 45], points: 18, desc: "Nhà Toán Học Nhí 🏆" }
+        ]
+    };
+
     static init() {
         if (!AppState.selectedSubject) AppState.selectedSubject = 'addition';
         this.updateLevelDropdown();
@@ -891,7 +968,7 @@ class Game {
         if (!playZone) return;
 
         // Xóa các class theme cũ
-        playZone.classList.remove('theme-jungle', 'theme-ocean', 'theme-universe', 'theme-division', 'theme-logic');
+        playZone.classList.remove('theme-jungle', 'theme-ocean', 'theme-universe', 'theme-division', 'theme-sequence', 'theme-clock', 'theme-logic');
 
         // Áp dụng theme mới dựa trên môn học
         if (AppState.selectedSubject === 'addition') {
@@ -902,6 +979,10 @@ class Game {
             playZone.classList.add('theme-universe');
         } else if (AppState.selectedSubject === 'division') {
             playZone.classList.add('theme-division');
+        } else if (AppState.selectedSubject === 'sequence') {
+            playZone.classList.add('theme-sequence');
+        } else if (AppState.selectedSubject === 'clock') {
+            playZone.classList.add('theme-clock');
         } else if (AppState.selectedSubject === 'logic') {
             playZone.classList.add('theme-logic');
         }
@@ -911,6 +992,8 @@ class Game {
         if (AppState.selectedSubject === 'multiplication') return this.MULTIPLICATION_CONFIG;
         if (AppState.selectedSubject === 'subtraction') return this.SUBTRACTION_CONFIG;
         if (AppState.selectedSubject === 'division') return this.DIVISION_CONFIG;
+        if (AppState.selectedSubject === 'sequence') return this.SEQUENCE_CONFIG;
+        if (AppState.selectedSubject === 'clock') return this.CLOCK_CONFIG;
         if (AppState.selectedSubject === 'logic') return this.LOGIC_CONFIG;
         return this.ADDITION_CONFIG;
     }
@@ -1182,6 +1265,117 @@ class Game {
         return stories[Math.floor(Math.random() * stories.length)];
     }
 
+    static getSequenceStoryQuestion(sequence, hiddenIndex, step) {
+        const displaySeq = sequence.map((n, i) => i === hiddenIndex ? '?' : n).join(', ');
+        const stories = [
+            `Bé Bi đang đếm: ${displaySeq}. Số còn thiếu là bao nhiêu?`,
+            `Chú ếch nhảy trên các tảng đá: ${displaySeq}. Tảng đá bị mất số là mấy?`,
+            `Cô giáo viết dãy số lên bảng: ${displaySeq}. Bạn giỏi hãy điền số còn thiếu!`,
+            `Tàu hỏa dừng ở các ga: ${displaySeq}. Ga bị che biển số là ga số mấy?`,
+            `Doraemon đang đếm bánh rán: ${displaySeq}. Số bị che khuất là bao nhiêu?`,
+            `Các bậc thang lên lâu đài: ${displaySeq}. Bậc thang bị mất là số mấy?`,
+            `Điền số còn thiếu vào dãy: ${displaySeq}.`
+        ];
+        return stories[Math.floor(Math.random() * stories.length)];
+    }
+
+    static getClockStoryQuestion(hours, minutes) {
+        const stories = [
+            `Đồng hồ đang chỉ giờ bé đi học. Bây giờ là mấy giờ?`,
+            `Mẹ nhờ bé xem giờ để chuẩn bị ăn cơm. Đồng hồ đang chỉ mấy giờ?`,
+            `Ba hỏi bé: "Con nhìn đồng hồ giúp ba xem mấy giờ rồi nhé!"`,
+            `Đây là giờ bé được xem phim hoạt hình. Đồng hồ đang chỉ mấy giờ?`,
+            `Cô giáo chỉ vào đồng hồ và hỏi: "Bây giờ là mấy giờ vậy?"`,
+            `Doraemon cần biết giờ để lên kế hoạch. Đồng hồ đang chỉ mấy giờ?`,
+            `Bi nhìn đồng hồ để biết còn bao lâu nữa được đi chơi. Bây giờ là mấy giờ?`
+        ];
+        return stories[Math.floor(Math.random() * stories.length)];
+    }
+
+    static renderAnalogClock(hours, minutes) {
+        const size = 200, cx = 100, cy = 100, r = 90;
+        const toRad = d => d * Math.PI / 180;
+        const hourAngle  = (hours % 12) * 30 + minutes * 0.5 - 90;
+        const minuteAngle = minutes * 6 - 90;
+        const hLen = r * 0.5, mLen = r * 0.75;
+        const hx = (cx + hLen * Math.cos(toRad(hourAngle))).toFixed(1);
+        const hy = (cy + hLen * Math.sin(toRad(hourAngle))).toFixed(1);
+        const mx = (cx + mLen * Math.cos(toRad(minuteAngle))).toFixed(1);
+        const my = (cy + mLen * Math.sin(toRad(minuteAngle))).toFixed(1);
+
+        let ticks = '';
+        for (let i = 0; i < 60; i++) {
+            const a = toRad(i * 6 - 90);
+            const isH = i % 5 === 0;
+            const inner = isH ? r - 12 : r - 6;
+            ticks += `<line x1="${(cx + r * Math.cos(a)).toFixed(1)}" y1="${(cy + r * Math.sin(a)).toFixed(1)}" x2="${(cx + inner * Math.cos(a)).toFixed(1)}" y2="${(cy + inner * Math.sin(a)).toFixed(1)}" stroke="#bbb" stroke-width="${isH ? 2.5 : 1}"/>`;
+        }
+
+        let nums = '';
+        for (let i = 1; i <= 12; i++) {
+            const a = toRad(i * 30 - 90);
+            nums += `<text x="${(cx + (r - 22) * Math.cos(a)).toFixed(1)}" y="${(cy + (r - 22) * Math.sin(a)).toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="bold" fill="#333">${i}</text>`;
+        }
+
+        return `<div style="display:flex;justify-content:center;padding:5px;">
+            <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+                <circle cx="${cx}" cy="${cy}" r="${r}" fill="white" stroke="#555" stroke-width="4"/>
+                ${ticks}${nums}
+                <line x1="${cx}" y1="${cy}" x2="${hx}" y2="${hy}" stroke="#333" stroke-width="7" stroke-linecap="round"/>
+                <line x1="${cx}" y1="${cy}" x2="${mx}" y2="${my}" stroke="#e74c3c" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="${cx}" cy="${cy}" r="5" fill="#333"/>
+            </svg></div>`;
+    }
+
+    static renderSequenceOptions(correctAnswer, step) {
+        const options = new Set([correctAnswer]);
+        const offsets = [step, -step, step * 2, -step * 2, step * 3, -step * 3];
+        for (const off of offsets) {
+            if (options.size >= 3) break;
+            const wrong = correctAnswer + off;
+            if (wrong > 0 && wrong !== correctAnswer) options.add(wrong);
+        }
+        while (options.size < 3) {
+            const wrong = correctAnswer + (options.size + 1) * step;
+            if (wrong > 0) options.add(wrong);
+        }
+        document.getElementById('box-options').innerHTML = Array.from(options)
+            .sort(() => Math.random() - 0.5)
+            .map(v => `<button class="btn-opt" onclick="Game.check(${v})">${v}</button>`)
+            .join('');
+    }
+
+    static renderClockOptions(correctH, correctM, maxHour) {
+        const correctVal = correctH * 100 + correctM;
+        const options = new Set([correctVal]);
+        const offsets = [1, -1, 2, -2, 3, -3];
+        for (const off of offsets) {
+            if (options.size >= 3) break;
+            const wrongH = ((correctH - 1 + off + 12) % 12) + 1;
+            if (wrongH <= maxHour) {
+                const wrongVal = wrongH * 100 + correctM;
+                if (wrongVal !== correctVal) options.add(wrongVal);
+            }
+        }
+        while (options.size < 3) {
+            const wrongH = Math.floor(Math.random() * maxHour) + 1;
+            const wrongVal = wrongH * 100 + correctM;
+            if (wrongVal !== correctVal) options.add(wrongVal);
+        }
+        const fmt = v => {
+            const h = Math.floor(v / 100), m = v % 100;
+            if (m === 0)  return `${h} giờ`;
+            if (m === 30) return `${h} giờ rưỡi`;
+            if (m === 15) return `${h} giờ 15 phút`;
+            if (m === 45) return `${h} giờ 45 phút`;
+            return `${h} giờ ${m} phút`;
+        };
+        document.getElementById('box-options').innerHTML = Array.from(options)
+            .sort(() => Math.random() - 0.5)
+            .map(v => `<button class="btn-opt" onclick="Game.check(${v})" style="font-size:18px;padding:12px 15px;">${fmt(v)}</button>`)
+            .join('');
+    }
+
     static newQuestion() {
         this.changeOwlMood('normal'); // Reset cú mèo về trạng thái bình thường khi sang câu mới
         TrackingService.startQuizTimer();
@@ -1204,6 +1398,46 @@ class Game {
         document.getElementById('standard-layout').style.display = 'block';
         document.getElementById('logic-layout').style.display = 'none';
         document.getElementById('btn-finish-pyramid').style.display = 'none';
+
+        // Xử lý riêng cho môn Điền Số Dãy Số
+        if (AppState.selectedSubject === 'sequence') {
+            const start = Math.floor(Math.random() * (levelConfig.maxStart - levelConfig.minStart + 1)) + levelConfig.minStart;
+            const seq = [];
+            for (let i = 0; i < levelConfig.length; i++) seq.push(start + i * levelConfig.step);
+            const hiddenIdx = Math.floor(Math.random() * (seq.length - 2)) + 1;
+            this.currentAnswer = seq[hiddenIdx];
+
+            document.getElementById('text-question').innerText = this.getSequenceStoryQuestion(seq, hiddenIdx, levelConfig.step);
+
+            const seqHtml = seq.map((n, i) =>
+                i === hiddenIdx
+                    ? `<span style="color:var(--warning-color);font-size:56px;font-weight:900;">?</span>`
+                    : `<span>${n}</span>`
+            ).join(' <span style="color:#aaa;font-size:28px;">→</span> ');
+
+            document.getElementById('box-visual').innerHTML = `
+                <div style="font-size:46px;font-weight:800;color:var(--secondary-color);padding:15px 10px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;">
+                    ${seqHtml}
+                </div>`;
+
+            this.renderSequenceOptions(this.currentAnswer, levelConfig.step);
+            this.updateGameInfo();
+            return;
+        }
+
+        // Xử lý riêng cho môn Đọc Giờ
+        if (AppState.selectedSubject === 'clock') {
+            const minVal = levelConfig.minutes[Math.floor(Math.random() * levelConfig.minutes.length)];
+            const hour = Math.floor(Math.random() * levelConfig.maxHour) + 1;
+            this.currentAnswer = hour * 100 + minVal;
+
+            document.getElementById('text-question').innerText = this.getClockStoryQuestion(hour, minVal);
+            document.getElementById('box-visual').innerHTML = this.renderAnalogClock(hour, minVal);
+
+            this.renderClockOptions(hour, minVal, levelConfig.maxHour);
+            this.updateGameInfo();
+            return;
+        }
 
         let mathExpression = "";
         let attempts = 0; // Tránh treo trình duyệt nếu level đó chỉ có 1 câu hỏi duy nhất
